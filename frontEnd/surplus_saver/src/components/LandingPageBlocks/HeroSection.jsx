@@ -1,4 +1,3 @@
-import logo from "../../assets/Logo.png";
 import Button from "../UI/Button";
 import image from "../../assets/heroSectionImage.png";
 import Header from "../UI/Header";
