@@ -1,17 +1,23 @@
 import HeroSection from "./HeroSection";
-// import Benefits from "./Benefits";
-// import Faq from "./Faq";
-// import LastCallToAction from "./LastCallToAction";
-// import Footer from "./Footer";
+import Benefits from "./Benefits";
+import Faq from "./Faq";
+import LastCallToAction from "./LastCallToAction";
+import Footer from "./Footer";
+
+import HrDivider from "../UI/HrDivider";
 
 const LandingPage = () => {
   return (
     <section>
       <HeroSection />
-      {/* <Benefits />
+      <HrDivider marginY="10" />
+      <Benefits />
+      <HrDivider marginY="10" />
       <Faq />
+      <HrDivider marginY="20" />
       <LastCallToAction />
-      <Footer /> */}
+      <HrDivider marginY="10" />
+      <Footer />
     </section>
   );
 };

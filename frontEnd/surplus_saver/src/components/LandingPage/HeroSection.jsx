@@ -1,15 +1,24 @@
-import logo from "../../../public/Logo.png";
+import logo from "../../assets/Logo.png";
 import Button from "../UI/Button";
 import image from "../../assets/heroSectionImage.png";
+import Header from "../UI/Header";
 
 const HeroSection = () => {
   return (
     <header className="flex flex-col gap-5">
-      <nav className="w-screen">
-        <img src={logo} className="size-40" />
-      </nav>
-      <div className="flex justify-center items-center gap-5 p-10 border-2 border-lime-600 rounded-md m-1">
-        <div className="flex flex-col gap-7 items-start w-1/2">
+      {/* <nav className="w-screen ">
+        <ul className="flex">
+          <li>
+            <img src={logo} className="size-40" />
+          </li>
+          <li>Benefits</li>
+          <li>FAQ</li>
+          <li>Join the Movement!</li>
+        </ul>
+      </nav> */}
+      <Header />
+      <div className="flex flex-col sm:flex-col lg:flex-row justify-center items-center gap-3 mx-24">
+        <div className="flex flex-col gap-7 items-start ">
           <h1 className="text-6xl font-extrabold ">
             Connecting Surplus Food with Those in Need
           </h1>
@@ -23,8 +32,8 @@ const HeroSection = () => {
             </Button>
           </div>
         </div>
-        <div className="w-1/2">
-          <img src={image} className="size-[50rem] rounded-[20px]" />
+        <div>
+          <img src={image} className="rounded-[20px] min-w-[336px]" />
         </div>
       </div>
     </header>
