@@ -1,3 +1,5 @@
+import { useRef } from "react";
+
 import HeroSection from "../components/LandingPageBlocks/HeroSection";
 import Benefits from "../components/LandingPageBlocks/Benefits";
 import Faq from "../components/LandingPageBlocks/Faq";
@@ -7,10 +9,16 @@ import Footer from "../components/LandingPageBlocks/Footer";
 import HrDivider from "../components/UI/HrDivider";
 
 const LandingPage = () => {
+  const benefitsSectionRef = useRef();
+
+  const scrollToBenefitsSection = () => {
+    benefitsSectionRef.current.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
     <section>
-      <HeroSection />
-      <HrDivider marginY="10" />
+      <HeroSection onScrollToBenefitsSection={scrollToBenefitsSection} />
+      <HrDivider ref={benefitsSectionRef} marginY="10" />
       <Benefits />
       <HrDivider marginY="10" />
       <Faq />

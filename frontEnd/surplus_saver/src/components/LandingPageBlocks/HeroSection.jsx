@@ -1,21 +1,12 @@
+/* eslint-disable react/prop-types */
+
 import Button from "../UI/Button";
 import image from "../../assets/heroSectionImage.png";
-import Header from "../UI/Header";
+import { NavLink } from "react-router-dom";
 
-const HeroSection = () => {
+const HeroSection = ({ onScrollToBenefitsSection }) => {
   return (
     <header className="flex flex-col gap-5">
-      {/* <nav className="w-screen ">
-        <ul className="flex">
-          <li>
-            <img src={logo} className="size-40" />
-          </li>
-          <li>Benefits</li>
-          <li>FAQ</li>
-          <li>Join the Movement!</li>
-        </ul>
-      </nav> */}
-      <Header />
       <div className="flex flex-col sm:flex-col lg:flex-row justify-center items-center gap-3 mx-24">
         <div className="flex flex-col gap-7 items-start ">
           <h1 className="text-6xl font-extrabold ">
@@ -23,10 +14,17 @@ const HeroSection = () => {
           </h1>
           <p>Join us in the fight against food waste and hunger.</p>
           <div className="flex gap-3">
-            <Button className="font-bold" primary>
-              GET STARTED !!!
-            </Button>
-            <Button className="font-bold" secondary>
+            <NavLink to="/sign_up">
+              <Button className="font-bold" primary>
+                GET STARTED !!!
+              </Button>
+            </NavLink>
+
+            <Button
+              onClick={onScrollToBenefitsSection}
+              className="font-bold"
+              secondary
+            >
               LEARN MORE
             </Button>
           </div>

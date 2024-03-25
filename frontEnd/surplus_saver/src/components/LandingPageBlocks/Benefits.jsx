@@ -16,14 +16,6 @@ const Benefits = () => {
         <h2 className="font-extrabold text-4xl">
           Connecting Restaurants and Consumers for Sustainable Food Solutions
         </h2>
-        {/* <p>
-          Surplus Saver offers an innovative connection mechanism that brings
-          together restaurants with surplus food and consumers in need. By
-          leveraging our online platform, we facilitate the redistribution of
-          excess food, ensuring it reaches those who can benefit from it the
-          most. Join us in reducing food waste and promoting sustainable food
-          practices.
-        </p> */}
       </div>
       <div className="h-screen my-5">
         <div className="grid grid-cols-2 md:grid-cols-3 grid-rows-3 md:grid-rows-4 gap-4 h-5/6 w-4/5 mx-auto">
@@ -34,13 +26,6 @@ const Benefits = () => {
               <img src={iconFoodWaste} className="size-10" />
               <h3 className={`${headings}`}>Reduce Food Waste</h3>
             </div>
-
-            {/* <p>
-              Surplus Saver empowers restaurants to minimize food waste by
-              efficiently redistributing surplus food to individuals or
-              organizations in need, contributing to a more sustainable food
-              ecosystem.
-            </p> */}
           </div>
           <div
             className={`bg-orange ${toFlex} col-span-1 md:col-span-2 rounded-lg`}
@@ -73,5 +58,7 @@ const Benefits = () => {
     </section>
   );
 };
+
+Benefits.displayName = "Benefits";
 
 export default Benefits;

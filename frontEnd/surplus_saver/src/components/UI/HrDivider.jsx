@@ -1,15 +1,21 @@
 /* eslint-disable react/prop-types */
-const HrDivider = ({ word, accent, neutral, Secondary, marginY }) => {
-  let classes = " divider";
-  if (accent) classes += "divider-accent";
-  else if (neutral) classes += "divider-neutral";
-  else if (Secondary) classes += "divider-secondary";
+import { forwardRef } from "react";
 
-  return (
-    <div className={`my-${marginY}`}>
-      <div className={classes}>{word}</div>
-    </div>
-  );
-};
+const HrDivider = forwardRef(
+  ({ word, accent, neutral, Secondary, marginY }, ref) => {
+    let classes = " divider";
+    if (accent) classes += "divider-accent";
+    else if (neutral) classes += "divider-neutral";
+    else if (Secondary) classes += "divider-secondary";
+
+    return (
+      <div ref={ref} className={`my-${marginY}`}>
+        <div className={classes}>{word}</div>
+      </div>
+    );
+  }
+);
+
+HrDivider.displayName = "HrDivider";
 
 export default HrDivider;

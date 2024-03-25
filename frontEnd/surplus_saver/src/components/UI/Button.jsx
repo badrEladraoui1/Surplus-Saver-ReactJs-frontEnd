@@ -8,6 +8,7 @@ const Button = ({
   link,
   className,
   children,
+  ...props
 }) => {
   let classes = "btn ";
   if (neutral) classes += "btn-neutral";
@@ -17,7 +18,11 @@ const Button = ({
   else if (ghost) classes += "btn-ghost";
   else if (link) classes += "btn-link";
 
-  return <button className={`${classes} ${className}`}>{children}</button>;
+  return (
+    <button {...props} className={`${classes} ${className}`}>
+      {children}
+    </button>
+  );
 };
 
 export default Button;
