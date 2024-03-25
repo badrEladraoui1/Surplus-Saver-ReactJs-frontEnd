@@ -14,10 +14,10 @@ const App = () => {
       element: <Root />,
       errorElement: <RootErrorPage />,
       children: [
-        { path: "/", element: <LandingPage /> },
-        { path: "/sign_up", element: <SignUpPge /> },
-        { path: "/sign_in", element: <SignInPage /> },
-        { path: "/about", element: <AboutPage /> },
+        { index: true, element: <LandingPage /> },
+        { path: "sign_up", element: <SignUpPge /> },
+        { path: "sign_in", element: <SignInPage /> },
+        { path: "about", element: <AboutPage /> },
       ],
     },
   ]);

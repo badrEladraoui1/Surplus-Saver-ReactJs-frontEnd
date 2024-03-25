@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 import Button from "../UI/Button";
 
 const LastCallToAction = () => {
@@ -12,12 +14,15 @@ const LastCallToAction = () => {
           involved:
         </p>
         <div className="flex flex-col md:flex-row justify-center items-center gap-4">
-          <Button
-            primary
-            className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full transition duration-300 ease-in-out"
-          >
-            Sign Up
-          </Button>
+          <Link to="sign_up">
+            <Button
+              primary
+              className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full transition duration-300 ease-in-out"
+            >
+              Sign Up
+            </Button>
+          </Link>
+
           <Button
             secondary
             className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-full transition duration-300 ease-in-out"

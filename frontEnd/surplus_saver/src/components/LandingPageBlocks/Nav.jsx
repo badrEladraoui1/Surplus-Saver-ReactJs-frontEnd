@@ -4,6 +4,12 @@ const NavLinks = () => {
   return (
     <>
       <NavLink
+        to="/"
+        className={({ isActive }) => (isActive ? "text-pink" : undefined)}
+      >
+        Home
+      </NavLink>
+      <NavLink
         to="/sign_up"
         className={({ isActive }) => (isActive ? "text-green" : undefined)}
       >
