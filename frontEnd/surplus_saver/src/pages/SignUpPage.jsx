@@ -28,7 +28,6 @@ const SignUpPage = () => {
               consumerForm && " border-2 border-green"
             }`}
           >
-            {" "}
             Consumer
           </Button>
           <div className="divider divider-horizontal">OR</div>
