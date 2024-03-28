@@ -1,32 +1,53 @@
+import { useState } from "react";
 import { useForm } from "react-hook-form";
+import axios from "axios";
+
+import { api } from "../Utils/backendApi";
 
 const ConsumersSignUpPage = () => {
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [successMessage, setSuccessMessage] = useState(null);
+
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => console.log(data);
-
-  console.log(watch("full_name"));
+  const onSubmit = async (data) => {
+    try {
+      const response = await axios.post(
+        `${api}/SurplusSaverApi/consumers/signup`,
+        data
+      );
+      console.log(response.data); // Handle successful response
+      setSuccessMessage("Signup successful!"); // Display success message
+      // Clear form and show success message
+    } catch (error) {
+      setErrorMessage(null);
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2xx
+        setErrorMessage(error.response.data.message);
+      } else if (error.request) {
+        // The request was made but no response was received
+        setErrorMessage("No response received from server");
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        setErrorMessage("An error occurred while sending the request");
+      }
+    }
+  };
 
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
       className="flex flex-col justify-center items-center p-10 gap-4"
     >
-      <input
-        type="text"
-        placeholder="Full Name"
-        className="input input-bordered input-lg w-full max-w-xs"
-        {...register("full_name", { required: true })}
-      />
-      {errors.full_name && (
-        <span className="text-red-500">This field is required</span>
+      {errorMessage && <span className="text-red-500">{errorMessage}</span>}
+      {successMessage && (
+        <span className="text-green-500">{successMessage}</span>
       )}
-
       <input
         type="text"
         placeholder="UserName"

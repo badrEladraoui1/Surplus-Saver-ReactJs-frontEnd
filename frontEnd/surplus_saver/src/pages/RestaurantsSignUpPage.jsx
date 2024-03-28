@@ -1,4 +1,5 @@
 import { useForm } from "react-hook-form";
+import axios from "axios";
 
 const RestaurantsSignUpPage = () => {
   const {
@@ -8,7 +9,17 @@ const RestaurantsSignUpPage = () => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = async (data) => {
+    try {
+      const response = await axios.post(
+        "/SurplusSaverApi/restaurants/signup",
+        data
+      );
+      console.log(response.data); // Handle successful response
+    } catch (error) {
+      console.log(error); // Handle error
+    }
+  };
 
   console.log(watch("restaurant_name"));
 
