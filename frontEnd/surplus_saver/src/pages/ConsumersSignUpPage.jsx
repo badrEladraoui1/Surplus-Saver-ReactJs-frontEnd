@@ -22,6 +22,9 @@ const ConsumersSignUpPage = () => {
       );
       console.log(response.data); // Handle successful response
       setSuccessMessage("Signup successful!"); // Display success message
+      setTimeout(() => {
+        setSuccessMessage(null); // Remove success message after 3 seconds
+      }, 3000);
       // Clear form and show success message
     } catch (error) {
       setErrorMessage(null);
@@ -36,6 +39,9 @@ const ConsumersSignUpPage = () => {
         // Something happened in setting up the request that triggered an Error
         setErrorMessage("An error occurred while sending the request");
       }
+      setTimeout(() => {
+        setErrorMessage(null); // Remove error message after 3 seconds
+      }, 3000);
     }
   };
 
@@ -44,15 +50,17 @@ const ConsumersSignUpPage = () => {
       onSubmit={handleSubmit(onSubmit)}
       className="flex flex-col justify-center items-center p-10 gap-4"
     >
-      {errorMessage && <span className="text-red-500">{errorMessage}</span>}
+      {errorMessage && (
+        <span className="text-red-500 font-bold text-xl">{errorMessage}</span>
+      )}
       {successMessage && (
-        <span className="text-green-500">{successMessage}</span>
+        <span className="text-green font-bold text-xl">{successMessage}</span>
       )}
       <input
         type="text"
         placeholder="UserName"
         className="input input-bordered input-lg w-full max-w-xs"
-        {...register("user_name", {
+        {...register("userName", {
           required: true,
           pattern: /^[A-Z][a-zA-Z]*$/, // Pattern to ensure the name starts with a capital letter
         })}
@@ -80,6 +88,16 @@ const ConsumersSignUpPage = () => {
       )}
       {errors.email && errors.email.type === "pattern" && (
         <span className="text-red-500">Invalid email format</span>
+      )}
+
+      <input
+        type="text"
+        placeholder="Address"
+        className="input input-bordered input-lg w-full max-w-xs"
+        {...register("address", { required: true })}
+      />
+      {errors.address && (
+        <span className="text-red-500">This field is required</span>
       )}
 
       <input
