@@ -21,7 +21,8 @@ const ConsumersSignUpPage = () => {
         data
       );
       console.log(response.data); // Handle successful response
-      setSuccessMessage("Signup successful!"); // Display success message
+      // setSuccessMessage("Signup successful!"); // Display success message
+      setSuccessMessage(response.data.message); // Display success message
       setTimeout(() => {
         setSuccessMessage(null); // Remove success message after 3 seconds
       }, 3000);

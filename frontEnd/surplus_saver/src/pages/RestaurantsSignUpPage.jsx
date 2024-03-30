@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 
@@ -8,38 +8,48 @@ import { api } from "../Utils/backendApi";
 const RestaurantsSignUpPage = () => {
   const [errorMessage, setErrorMessage] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
+  const [loading, setLoading] = useState(false); // State to manage loading indicator
+
+  const navigate = useNavigate(); // Initialize useHistory hook
 
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm();
 
+  // const loadingIcon = (
+  //   <span className="loading loading-infinity loading-lg"></span>
+  // ); // Loading indicator
+
   const onSubmit = async (data) => {
+    // Function to handle form submission and API call to create a new user account in the database using the POST method of the REST API  endpoint : `${api}/SurplusSaverApi/restaurants/signup`, data: data , i am getting two succefull messages from the backend meessage1 add the loading indicator besides the first message and message2 i want you to show message1 for 3 seconds , message2 for 2 seconds and then redirect to the sign_up page and clean up the second message
     try {
+      // Try block to catch errors
+      setLoading(true); // Set loading to true
       const response = await axios.post(
         `${api}/SurplusSaverApi/restaurants/signup`,
         data
       );
       console.log(response.data); // Handle successful response
-      setSuccessMessage("Signup successful!"); // Display success message
+      setSuccessMessage(response.data.message); // Display success message
       setTimeout(() => {
         setSuccessMessage(null); // Remove success message after 3 seconds
+        navigate("/sign_up"); // Redirect to the sign-in page
       }, 3000);
-      // Clear form and show success message
     } catch (error) {
-      setErrorMessage(null);
+      // Catch block to handle errors
+      setLoading(false); // Set loading to false
+      setErrorMessage(null); // Set error message to null
       if (error.response) {
-        // The request was made and the server responded with a status code
-        // that falls out of the range of 2xx
-        setErrorMessage(error.response.data.message);
+        // Check if there is a response from the server
+        setErrorMessage(error.response.data.message); // Set error message to response message
       } else if (error.request) {
-        // The request was made but no response was received
-        setErrorMessage("No response received from server");
+        // Check if there is no response from the server
+        setErrorMessage("No response received from server"); // Set error message to no response message
       } else {
-        // Something happened in setting up the request that triggered an Error
-        setErrorMessage("An error occurred while sending the request");
+        // Handle other errors
+        setErrorMessage("An error occurred while sending the request"); // Set error message to generic error message
       }
       setTimeout(() => {
         setErrorMessage(null); // Remove error message after 3 seconds
@@ -47,13 +57,12 @@ const RestaurantsSignUpPage = () => {
     }
   };
 
-  console.log(watch("restaurant_name"));
-
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
       className="flex flex-col justify-center items-center p-10 gap-4"
     >
+      {loading && <div>Loading...</div>} {/* Display loading indicator */}
       {errorMessage && (
         <span className="text-red-500 font-bold text-xl">{errorMessage}</span>
       )}
@@ -64,20 +73,19 @@ const RestaurantsSignUpPage = () => {
         type="text"
         placeholder="Restaurant Name"
         className="input input-bordered input-lg w-full max-w-xs"
-        {...register("user_name", {
+        {...register("userName", {
           required: true,
           pattern: /^[A-Z][a-zA-Z]*$/, // Pattern to ensure the name starts with a capital letter
         })}
       />
-      {errors.user_name && errors.user_name.type === "required" && (
+      {errors.userName && errors.userName.type === "required" && (
         <span className="text-red-500">This field is required</span>
       )}
-      {errors.user_name && errors.user_name.type === "pattern" && (
+      {errors.userName && errors.userName.type === "pattern" && (
         <span className="text-red-500">
           Restaurant name must start with a capital letter
         </span>
       )}
-
       <input
         type="text"
         placeholder="Email"
@@ -93,7 +101,6 @@ const RestaurantsSignUpPage = () => {
       {errors.email && errors.email.type === "pattern" && (
         <span className="text-red-500">Invalid email format</span>
       )}
-
       <input
         type="text"
         placeholder="Address"
@@ -103,7 +110,6 @@ const RestaurantsSignUpPage = () => {
       {errors.address && (
         <span className="text-red-500">This field is required</span>
       )}
-
       <input
         type="password"
         placeholder="Password"
@@ -113,35 +119,32 @@ const RestaurantsSignUpPage = () => {
       {errors.password && (
         <span className="text-red-500">This field is required</span>
       )}
-
       <input
         type="text"
         placeholder="Small Description"
         className="input input-bordered input-lg w-full max-w-xs"
-        {...register("small_description", { required: true })}
+        {...register("smallDescription", { required: true })}
       />
-      {errors.small_description && (
+      {errors.smallDescription && (
         <span className="text-red-500">This field is required</span>
       )}
-
       <input
-        type="text"
+        type="Text"
         placeholder="Restaurant Phone Number"
         className="input input-bordered input-lg w-full max-w-xs"
-        {...register("phone_number", {
+        {...register("phoneNumber", {
           required: true,
-          pattern: /^\d{10}$/, // Pattern to ensure the input is a 10-digit number
+          // pattern: /^\d{10}$/, // Pattern to ensure the input is a 10-digit number
         })}
       />
-      {errors.phone_number && errors.phone_number.type === "required" && (
+      {errors.phoneNumber && errors.phoneNumber.type === "required" && (
         <span className="text-red-500">This field is required</span>
       )}
-      {errors.phone_number && errors.phone_number.type === "pattern" && (
+      {/* {errors.phoneNumber && errors.phoneNumber.type === "pattern" && (
         <span className="text-red-500">
           Please enter a 10-digit phone number
         </span>
-      )}
-
+      )} */}
       <input type="submit" value="Sign Up" className="btn btn-primary" />
     </form>
   );
