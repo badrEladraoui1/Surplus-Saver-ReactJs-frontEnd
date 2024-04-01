@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 import { api } from "../Utils/backendApi";
@@ -9,7 +9,7 @@ const SignInPage = () => {
   const [errorMessage, setErrorMessage] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
 
-  const navigate = useNavigate(); // Initialize useHistory hook
+  // const navigate = useNavigate(); // Initialize useHistory hook
 
   const {
     register,
@@ -29,7 +29,7 @@ const SignInPage = () => {
       setSuccessMessage(response.data); // Display success message
       setTimeout(() => {
         setSuccessMessage(null); // Remove success message after 3 seconds
-        navigate("/sign_up"); // Redirect to the sign-in page
+        // navigate("/sign_up"); // Redirect to the sign-in page
       }, 3000);
     } catch (error) {
       // Catch block to handle errors
@@ -58,10 +58,40 @@ const SignInPage = () => {
         className="flex flex-col justify-center items-center gap-5 "
       >
         {errorMessage && (
-          <span className="text-red-500 font-bold text-xl">{errorMessage}</span>
+          <div role="alert" className="alert alert-error">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="stroke-current shrink-0 h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+            <span>{errorMessage}</span>
+          </div>
         )}
         {successMessage && (
-          <span className="text-green font-bold text-xl">{successMessage}</span>
+          <div role="alert" className="alert alert-info">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              className="stroke-current shrink-0 w-6 h-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+              ></path>
+            </svg>
+            <span>{successMessage}</span>
+          </div>
         )}
 
         <label className="input input-bordered flex items-center gap-2">
