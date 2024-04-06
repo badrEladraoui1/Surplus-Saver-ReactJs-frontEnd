@@ -1,15 +1,17 @@
+/* eslint-disable no-unused-vars */
 import { useForm } from "react-hook-form";
+// import { useNavigate } from "react-router-dom";
 import axios from "axios";
 // import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import { api } from "../Utils/backendApi";
 
 const SignInPage = () => {
   const [errorMessage, setErrorMessage] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
-
   // const navigate = useNavigate(); // Initialize useHistory hook
+  const [token, setToken] = useState("");
 
   const {
     register,
@@ -17,38 +19,107 @@ const SignInPage = () => {
     formState: { errors },
   } = useForm();
 
+  // const navigate = useNavigate(); // Initialize useHistory hook
+
+  useEffect(() => {
+    const storedToken = localStorage.getItem("token");
+    if (storedToken) {
+      setToken(storedToken);
+    }
+  }, []);
+
   const onSubmit = async (data) => {
-    // Function to handle form submission and API call to create a new user account in the database using the POST method of the REST API  endpoint : `${api}/SurplusSaverApi/restaurants/signup`, data: data , i am getting two succefull messages from the backend meessage1 add the loading indicator besides the first message and message2 i want you to show message1 for 3 seconds , message2 for 2 seconds and then redirect to the sign_up page and clean up the second message
     try {
-      // Try block to catch errors
       const response = await axios.post(
         `${api}/SurplusSaverApiV1/auth/signin`,
         data
       );
-      console.log(response.data); // Handle successful response
-      setSuccessMessage(response.data); // Display success message
+      setSuccessMessage("Sign in successful"); // Set the success message immediately
+      console.log(response.data);
+      localStorage.setItem(
+        "token",
+        `${response.data.tokenType} ${response.data.accessToken}`
+      );
+      // navigate("/some-route"); // Redirect to some route
+
+      // Clear success message after 3 seconds
       setTimeout(() => {
-        setSuccessMessage(null); // Remove success message after 3 seconds
-        // navigate("/sign_up"); // Redirect to the sign-in page
+        setSuccessMessage(null);
       }, 3000);
     } catch (error) {
-      // Catch block to handle errors
-      setErrorMessage(null); // Set error message to null
+      setErrorMessage(null);
       if (error.response) {
-        // Check if there is a response from the server
-        setErrorMessage(error.response.data); // Set error message to response message
+        setErrorMessage("Wrong credentials provided please try again");
       } else if (error.request) {
-        // Check if there is no response from the server
-        setErrorMessage("No response received from server"); // Set error message to no response message
+        setErrorMessage("No response received from server");
       } else {
-        // Handle other errors
-        setErrorMessage("An error occurred while sending the request"); // Set error message to generic error message
+        setErrorMessage("An error occurred while sending the request");
       }
       setTimeout(() => {
-        setErrorMessage(null); // Remove error message after 3 seconds
+        setErrorMessage(null);
       }, 3000);
     }
   };
+
+  // const onSubmit = async (data) => {
+  //   // Function to handle form submission and API call to create a new user account in the database using the POST method of the REST API  endpoint : `${api}/SurplusSaverApi/restaurants/signup`, data: data , i am getting two succefull messages from the backend meessage1 add the loading indicator besides the first message and message2 i want you to show message1 for 3 seconds , message2 for 2 seconds and then redirect to the sign_up page and clean up the second message
+  //   try {
+  //     // Try block to catch errors
+  //     const response = await axios.post(
+  //       `${api}/SurplusSaverApiV1/auth/signin`,
+  //       data,
+  //       { headers: { Authorization: `Bearer ${token}` } }
+  //     );
+  //     console.log(response.data); // Handle successful response
+  //     setSuccessMessage(response.data); // Display success message
+  //     setTimeout(() => {
+  //       setSuccessMessage(null); // Remove success message after 3 seconds
+  //       // navigate("/sign_up"); // Redirect to the sign-in page
+  //     }, 3000);
+  //   } catch (error) {
+  //     // Catch block to handle errors
+  //     setErrorMessage(null); // Set error message to null
+  //     if (error.response) {
+  //       // Check if there is a response from the server
+  //       setErrorMessage(error.response.data); // Set error message to response message
+  //     } else if (error.request) {
+  //       // Check if there is no response from the server
+  //       setErrorMessage("No response received from server"); // Set error message to no response message
+  //     } else {
+  //       // Handle other errors
+  //       setErrorMessage("An error occurred while sending the request"); // Set error message to generic error message
+  //     }
+  //     setTimeout(() => {
+  //       setErrorMessage(null); // Remove error message after 3 seconds
+  //     }, 3000);
+  //   }
+  // };
+
+  // based on the previous on submit function create another one that stores the token in the local storage and redirect to the home page
+  // const onSubmit = async (data) => {
+  //   try {
+  //     const response = await axios.post(`${api}/SurplusSaverApiV1/auth/signin`, data);
+  //     console.log(response.data);
+  //     setSuccessMessage(response.data);
+  //     setTimeout(() => {
+  //       setSuccessMessage(null);
+  //       localStorage.setItem("token", response.data.token);
+  //       navigate("/");
+  //     }, 3000);
+  //   } catch (error) {
+  //     setErrorMessage(null);
+  //     if (error.response) {
+  //       setErrorMessage(error.response.data);
+  //     } else if (error.request) {
+  //       setErrorMessage("No response received from server");
+  //     } else {
+  //       setErrorMessage("An error occurred while sending the request");
+  //     }
+  //     setTimeout(() => {
+  //       setErrorMessage(null);
+  //     }, 3000);
+  //   }
+  // };
 
   return (
     <section className="flex flex-col justify-center items-center p-10 gap-10 ">

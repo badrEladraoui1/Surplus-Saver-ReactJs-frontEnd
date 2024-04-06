@@ -36,6 +36,7 @@ const ConsumersSignUpPage = () => {
       setErrorMessage(null); // Set error message to null
       if (error.response) {
         // Check if there is a response from the server
+        console.log(error.response.data);
         setErrorMessage(error.response.data); // Set error message to response message
       } else if (error.request) {
         // Check if there is no response from the server
