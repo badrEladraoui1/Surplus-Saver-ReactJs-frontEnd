@@ -8,6 +8,15 @@ const Button = ({
   link,
   className,
   children,
+  error,
+  warning,
+  info,
+  outline_default,
+  outline_primary,
+  outline_secondary,
+  outline_accent,
+  outline_error,
+  outline_warning,
   ...props
 }) => {
   let classes = "btn ";
@@ -17,6 +26,15 @@ const Button = ({
   else if (accent) classes += "btn-accent";
   else if (ghost) classes += "btn-ghost";
   else if (link) classes += "btn-link";
+  else if (error) classes += "btn-error";
+  else if (warning) classes += "btn-warning";
+  else if (info) classes += "btn-info";
+  else if (outline_default) classes += "btn-outline";
+  else if (outline_primary) classes += "btn-outline btn-primary";
+  else if (outline_secondary) classes += "btn-outline btn-secondary";
+  else if (outline_accent) classes += "btn-outline btn-accent";
+  else if (outline_error) classes += "btn-outline btn-error";
+  else if (outline_warning) classes += "btn-outline btn-warning";
 
   return (
     <button {...props} className={`${classes} ${className}`}>
