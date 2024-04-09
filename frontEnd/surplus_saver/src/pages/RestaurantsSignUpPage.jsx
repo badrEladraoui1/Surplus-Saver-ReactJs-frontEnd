@@ -17,10 +17,6 @@ const RestaurantsSignUpPage = () => {
     formState: { errors },
   } = useForm();
 
-  // const loadingIcon = (
-  //   <span className="loading loading-infinity loading-lg"></span>
-  // ); // Loading indicator
-
   const onSubmit = async (data) => {
     // Function to handle form submission and API call to create a new user account in the database using the POST method of the REST API  endpoint : `${api}/SurplusSaverApi/restaurants/signup`, data: data , i am getting two succefull messages from the backend meessage1 add the loading indicator besides the first message and message2 i want you to show message1 for 3 seconds , message2 for 2 seconds and then redirect to the sign_up page and clean up the second message
     try {

@@ -1,8 +1,14 @@
+/* eslint-disable no-unused-vars */
 import { useForm, useFieldArray } from "react-hook-form";
 
 import Button from "../components/UI/Button";
 
+import { UserContext } from "../contexts/UserContext";
+import { useContext } from "react";
+
 const NewPostPage = () => {
+  const { userUserName } = useContext(UserContext);
+
   const { register, control, handleSubmit, reset } = useForm({
     defaultValues: {
       restaurantName: "",

@@ -1,4 +1,5 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import UserContextProvider from "./contexts/UserContext";
 
 import LandingPage from "./pages/LandingPage";
 import SignUpPge from "./pages/SignUpPage";
@@ -42,7 +43,9 @@ const App = () => {
 
   return (
     <main>
-      <RouterProvider router={router} />
+      <UserContextProvider>
+        <RouterProvider router={router} />
+      </UserContextProvider>
     </main>
   );
 };
