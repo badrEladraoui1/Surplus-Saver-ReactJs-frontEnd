@@ -4,12 +4,20 @@ import { jwtDecode } from "jwt-decode";
 
 export const UserContext = createContext({
   userUserName: "",
+  userId: "",
+  userRole: "",
+  userPhone: "",
+  userAddress: "",
   setUserUserName: () => {},
   logout: () => {},
 });
 
 function UserContextProvider({ children }) {
   const [userUserName, setUserUserName] = useState("");
+  const [userId, setUserId] = useState("");
+  const [userRole, setUserRole] = useState("");
+  const [userPhone, setUserPhone] = useState("");
+  const [userAddress, setUserAddress] = useState("");
   const [token, setToken] = useState(localStorage.getItem("token"));
 
   useEffect(() => {
@@ -26,19 +34,31 @@ function UserContextProvider({ children }) {
 
   useEffect(() => {
     if (token) {
-      const { sub } = jwtDecode(token.replace("Bearer ", ""));
+      const { sub, id, role, phone, address } = jwtDecode(
+        token.replace("Bearer ", "")
+      );
       if (sub) setUserUserName(sub);
+      if (id) setUserId(id);
+      if (role) setUserRole(role);
+      if (phone) setUserPhone(phone);
+      if (address) setUserAddress(address);
     }
   }, [token]);
 
   const logout = () => {
     localStorage.removeItem("token");
     setUserUserName("");
+    setUserId("");
+    setUserRole("");
     setToken(null);
   };
 
   const userCtx = {
     userUserName: userUserName,
+    userId: userId,
+    userRole: userRole,
+    userPhone: userPhone,
+    userAddress: userAddress,
     setUserUserName: setUserUserName,
     logout: logout,
   };

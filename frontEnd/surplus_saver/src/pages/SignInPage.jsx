@@ -23,6 +23,7 @@ const SignInPage = () => {
     const storedToken = localStorage.getItem("token");
     if (storedToken) {
       setToken(storedToken);
+      console.log(storedToken);
       const { role } = jwtDecode(storedToken);
       if (role) setUserRole(role);
     }

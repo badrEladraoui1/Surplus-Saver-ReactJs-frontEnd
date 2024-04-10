@@ -18,6 +18,7 @@ const RestaurantsSignUpPage = () => {
   } = useForm();
 
   const onSubmit = async (data) => {
+    console.log(data);
     // Function to handle form submission and API call to create a new user account in the database using the POST method of the REST API  endpoint : `${api}/SurplusSaverApi/restaurants/signup`, data: data , i am getting two succefull messages from the backend meessage1 add the loading indicator besides the first message and message2 i want you to show message1 for 3 seconds , message2 for 2 seconds and then redirect to the sign_up page and clean up the second message
     try {
       // Try block to catch errors
@@ -36,7 +37,7 @@ const RestaurantsSignUpPage = () => {
       setErrorMessage(null); // Set error message to null
       if (error.response) {
         // Check if there is a response from the server
-        setErrorMessage(error.response.data); // Set error message to response message
+        setErrorMessage(error.response.data); // TODO Set error message to response message
       } else if (error.request) {
         // Check if there is no response from the server
         setErrorMessage("No response received from server"); // Set error message to no response message
@@ -173,17 +174,17 @@ const RestaurantsSignUpPage = () => {
         className="input input-bordered input-lg w-full max-w-xs"
         {...register("phone", {
           required: true,
-          // pattern: /^\d{10}$/, // Pattern to ensure the input is a 10-digit number
+          pattern: /^\d{10}$/, // Pattern to ensure the input is a 10-digit number
         })}
       />
       {errors.phone && errors.phone.type === "required" && (
         <span className="text-red-500">This field is required</span>
       )}
-      {/* {errors.phoneNumber && errors.phoneNumber.type === "pattern" && (
+      {errors.phoneNumber && errors.phoneNumber.type === "pattern" && (
         <span className="text-red-500">
           Please enter a 10-digit phone number
         </span>
-      )} */}
+      )}
       <input type="submit" value="Sign Up" className="btn btn-primary" />
 
       {successMessage && (
