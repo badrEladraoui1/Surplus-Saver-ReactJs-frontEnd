@@ -14,6 +14,8 @@ import DeletePostPage from "./pages/DeletePostPage";
 import PostHistoryPage from "./pages/PostHistoryPage";
 import RootRestaurant from "./pages/RootRestaurant";
 
+import ProtectedRoute from "./protection/ProtectedRoute";
+
 const App = () => {
   const router = createBrowserRouter([
     {
@@ -32,11 +34,46 @@ const App = () => {
       element: <RootRestaurant />,
       errorElement: <RootErrorPage />,
       children: [
-        { index: true, element: <HomePage /> },
-        { path: "newPost", element: <NewPostPage /> },
-        { path: "modifyPost/:id", element: <ModifyPostPage /> },
-        { path: "deletePost/:id", element: <DeletePostPage /> },
-        { path: "myPosts", element: <PostHistoryPage /> },
+        {
+          index: true,
+          element: (
+            <ProtectedRoute accessRole="ROLE_RESTAURANT">
+              <HomePage />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "newPost",
+          element: (
+            <ProtectedRoute accessRole="ROLE_RESTAURANT">
+              <NewPostPage />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "modifyPost/:id",
+          element: (
+            <ProtectedRoute accessRole="ROLE_RESTAURANT">
+              <ModifyPostPage />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "deletePost/:id",
+          element: (
+            <ProtectedRoute accessRole="ROLE_RESTAURANT">
+              <DeletePostPage />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "myPosts",
+          element: (
+            <ProtectedRoute accessRole="ROLE_RESTAURANT">
+              <PostHistoryPage />
+            </ProtectedRoute>
+          ),
+        },
       ],
     },
   ]);

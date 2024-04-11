@@ -69,6 +69,7 @@ const NewPostPage = () => {
       // Catch block to handle errors
       setErrorMessage(null); // Set error message to null
       if (error.response) {
+        console.log(error.response.data); // Handle error response
         // Check if there is a response from the server
         setErrorMessage("there was an error while creating the post"); // Set error message to response message
       } else if (error.request) {
