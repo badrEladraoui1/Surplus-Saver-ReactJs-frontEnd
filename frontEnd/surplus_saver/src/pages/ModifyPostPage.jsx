@@ -4,41 +4,151 @@ import { useForm, useFieldArray, useWatch } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
+import { api } from "../Utils/backendApi";
+
 import Button from "../components/UI/Button";
 import axios from "axios";
 
 const ModifyPostPage = () => {
   const [postData, setPostData] = useState(null);
+
+  const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+
   const { register, control, handleSubmit, reset, setValue } = useForm();
   const { fields, append, remove } = useFieldArray({
     control,
     name: "items",
+    // defaultValue: [
+    //   { itemName: "", itemType: "", quantity: "", description: "" },
+    //   { itemName: "", itemType: "", quantity: "", description: "" },
+    //   { itemName: "", itemType: "", quantity: "", description: "" },
+    // ], // initialize with three empty objects
   });
 
-  const { postId } = useParams();
+  const { id } = useParams();
+  console.log(id);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          `${api}/SurplusSaverApiV1/posts/getPostById/${id}`,
+          {
+            headers: {
+              Authorization: localStorage.getItem("token"),
+            },
+          }
+        );
+        const data = response.data;
+        console.log(data);
+        setPostData(data);
+        Object.keys(data).forEach((key) => {
+          if (key !== "items") {
+            setValue(key, data[key]);
+          }
+        });
+        if (data.items) {
+          setValue("items", data.items);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchData();
+  }, [id, setValue]);
 
   // useEffect(() => {
-  //   // Fetch post data from backend
-  //   axios
-  //     .get(`/SurplusSaverApiV1/posts/getPostById/${postId}`)
-  //     .then((response) => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await axios.get(
+  //         `${api}/SurplusSaverApiV1/posts/getPostById/${id}`,
+  //         {
+  //           headers: {
+  //             Authorization: localStorage.getItem("token"),
+  //           },
+  //         }
+  //       );
   //       const data = response.data;
+  //       console.log(data);
   //       setPostData(data);
-  //       // Set form default values
   //       Object.keys(data).forEach((key) => {
-  //         setValue(key, data[key]);
+  //         if (key !== "items") {
+  //           setValue(key, data[key]);
+  //         }
   //       });
-  //     });
-  // }, [postId, setValue]);
+  //       if (data.items) {
+  //         const items = [...data.items];
+  //         while (items.length < 3) {
+  //           items.push({
+  //             itemName: "",
+  //             itemType: "",
+  //             quantity: "",
+  //             description: "",
+  //           });
+  //         }
+  //         setValue("items", items);
+  //       }
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   };
+  //   fetchData();
+  // }, [id, setValue]);
 
-  const onSubmit = (data) => {
-    console.log(data);
-    // Send a PUT request to the backend to update the post
-    axios
-      .put(`/SurplusSaverApiV1/posts/modifyPost/${postId}`, data)
-      .then(() => {
-        reset();
-      });
+  // const onSubmit = async (data) => {
+  //   try {
+  //     console.log(data);
+  //     const updatedPost = {
+  //       id: id,
+  //       restaurantName: data.restaurantName,
+  //       postDescription: data.postDescription,
+  //       items: data.items.map((item, index) => ({
+  //         id: fields[index].id, // Assuming the original item id is stored in fields
+  //         ...item,
+  //       })),
+  //     };
+  //     await axios.put(
+  //       `${api}/SurplusSaverApiV1/posts/modifyPost/${id}`,
+  //       updatedPost,
+  //       {
+  //         headers: {
+  //           Authorization: localStorage.getItem("token"),
+  //         },
+  //       }
+  //     );
+  //     reset();
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+
+  const onSubmit = async (data) => {
+    try {
+      console.log(data);
+      const response = await axios.put(
+        `${api}/SurplusSaverApiV1/posts/modifyPost/${id}`,
+        data,
+        {
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          },
+        }
+      );
+      setSuccessMessage(response.data); // assuming the response contains a message field
+      setErrorMessage("");
+      reset();
+
+      // Clear the success message after 3 seconds
+      setTimeout(() => {
+        setSuccessMessage("");
+      }, 3000);
+    } catch (error) {
+      console.error(error);
+      setErrorMessage("An error occurred while modifying the post.");
+      setSuccessMessage("");
+    }
+    console.log("submitted : ", data);
   };
 
   return (
@@ -47,6 +157,7 @@ const ModifyPostPage = () => {
         <h1 className="text-3xl font-bold mb-4 text-orange">
           Modify Post Form
         </h1>
+
         <p className="mb-4">
           This form allows you to modify an existing post. After submitting, the
           form will be reset.
@@ -54,11 +165,48 @@ const ModifyPostPage = () => {
       </div>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <h1 className="text-2xl font-bold text-orange">Modify Post</h1>
+        {errorMessage && (
+          <div role="alert" className="alert alert-error">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="stroke-current shrink-0 h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+            <span>{errorMessage}</span>
+          </div>
+        )}
+        {successMessage && (
+          <div role="alert" className="alert alert-success">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="stroke-current shrink-0 h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+            <span>{successMessage}</span>
+          </div>
+        )}
         <div className="space-y-3">
           <label className="block font-medium text-xl">Restaurant Name:</label>
           <input
             {...register("restaurantName")}
             className="block w-full p-2 border border-gray-300 rounded"
+            disabled
           />
         </div>
         <div className="space-y-3">

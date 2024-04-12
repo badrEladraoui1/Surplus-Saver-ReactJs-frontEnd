@@ -22,7 +22,7 @@ const SideBar = () => {
           New Post
         </NavLink>
       </li>
-      <li>
+      {/* <li>
         {" "}
         <NavLink
           to="/restaurant/modifyPost/:id"
@@ -30,7 +30,7 @@ const SideBar = () => {
         >
           Modify Post
         </NavLink>
-      </li>
+      </li> */}
       <li>
         {" "}
         <NavLink
