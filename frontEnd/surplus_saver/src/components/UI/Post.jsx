@@ -1,12 +1,15 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 // Post.jsx
 import axios from "axios";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import Button from "./Button";
 import { api } from "../../Utils/backendApi";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "../../contexts/UserContext";
 
 const Post = ({ post, onDelete }) => {
+  const { userPhone } = useContext(UserContext);
   const [successMessage, setSuccessMessage] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
 
@@ -73,8 +76,14 @@ const Post = ({ post, onDelete }) => {
           <span>{successMessage}</span>
         </div>
       )}
-      <h2 className="text-2xl font-bold mb-2">{post.restaurantName}</h2>
-      <p className="mb-2">{post.postDescription}</p>
+      <h2 className="text-2xl font-bold mb-2">
+        Restaurant&apos;s name : {post.restaurantName}
+      </h2>
+      <h2 className="text-2xl font-bold mb-2">Posted at : {post.postedAt}</h2>
+      <h2 className="text-2xl font-bold mb-2">
+        Restaurant&apos;s phone : {userPhone}
+      </h2>
+      <p className="mb-2">Post&apos;s description : {post.postDescription}</p>
       {post.items && (
         <ul className="list-disc pl-5">
           {post.items.map((item) => (
