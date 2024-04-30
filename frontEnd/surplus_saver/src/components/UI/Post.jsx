@@ -8,7 +8,7 @@ import { api } from "../../Utils/backendApi";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../contexts/UserContext";
 
-const Post = ({ post, onDelete }) => {
+const Post = ({ post, onDelete, restaurant }) => {
   const { userPhone } = useContext(UserContext);
   const [successMessage, setSuccessMessage] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
@@ -96,14 +96,16 @@ const Post = ({ post, onDelete }) => {
           ))}
         </ul>
       )}
-      <div className="flex gap-3 justify-center p-5">
-        <Button info onClick={modifyPost}>
-          Modify
-        </Button>
-        <Button warning onClick={deletePost}>
-          Delete
-        </Button>
-      </div>
+      {restaurant && (
+        <div className="flex gap-3 justify-center p-5">
+          <Button info onClick={modifyPost}>
+            Modify
+          </Button>
+          <Button warning onClick={deletePost}>
+            Delete
+          </Button>
+        </div>
+      )}
     </div>
   );
 };

@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { api } from "../Utils/backendApi";
 import HomePost from "../components/UI/HomePost";
-import Loading from "../components/UI/Loading";
+import PostLoading from "../components/UI/PostLoading";
 
 const HomePage = () => {
   const [posts, setPosts] = useState([]);
@@ -33,7 +33,7 @@ const HomePage = () => {
   }, []);
 
   if (isLoading) {
-    return <Loading />;
+    return <PostLoading />;
   }
   if (error) {
     return <div className="text-red-500 font-bold text-xl">Error: {error}</div>;
@@ -41,14 +41,14 @@ const HomePage = () => {
 
   return (
     <div className="p-20 flex flex-col">
-      <h1 className="text-2xl font-bold text-green text-center">HomePage</h1>
+      <h1 className="text-2xl font-bold text-pink text-center m-4">HomePage</h1>
       <p className=" mb-4 text-center">
         Welcome to the HomePage! This page displays all the posts from various
         restaurants. Each post includes details about the restaurant and the
         items they offer. Browse through the posts to find the best deals!
       </p>
       {posts.map((post) => (
-        <HomePost key={post.id} post={post} />
+        <HomePost key={post.id} post={post} consumer />
       ))}
     </div>
   );

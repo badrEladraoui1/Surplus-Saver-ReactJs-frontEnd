@@ -7,7 +7,7 @@ const NavForUser = ({ userUserName }) => {
   const { logout } = useContext(UserContext);
 
   return (
-    <div className="navbar bg-base-100">
+    <div className="navbar bg-base-100 -z-20">
       <div className="flex-1">
         <Link to="/" className="btn btn-ghost text-xl">
           SurplusSaver

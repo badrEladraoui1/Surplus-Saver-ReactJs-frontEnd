@@ -18,6 +18,15 @@ export default {
         yellow: "#ffdd52",
         // Add more colors as needed
       },
+      animation: {
+        "background-shine": "background-shine 2s linear infinite",
+      },
+      keyframes: {
+        "background-shine": {
+          "0%": { backgroundPosition: "0 0" },
+          "100%": { backgroundPosition: "-200% 0" },
+        },
+      },
     },
   },
   plugins: [require("daisyui")],

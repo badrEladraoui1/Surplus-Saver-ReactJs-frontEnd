@@ -7,12 +7,15 @@ import SignInPage from "./pages/SignInPage";
 import Root from "./pages/Root";
 import RootErrorPage from "./pages/RootErrorPage";
 import AboutPage from "./pages/AboutPage";
-import HomePage from "./pages/HomePage";
+import HomePage from "./pages/RestoHomePage";
 import NewPostPage from "./pages/NewPostPage";
 import ModifyPostPage from "./pages/ModifyPostPage";
 import DeletePostPage from "./pages/DeletePostPage";
 import PostHistoryPage from "./pages/PostHistoryPage";
 import RootRestaurant from "./pages/RootRestaurant";
+// import HomePageConsumer from "./pages/HomePageConsumer";
+import RootConsumer from "./pages/RootConsumer";
+import ConsumerSavedPosts from "./pages/ConsumerSavedPosts";
 
 import ProtectedRoute from "./protection/ProtectedRoute";
 
@@ -71,6 +74,29 @@ const App = () => {
           element: (
             <ProtectedRoute accessRole="ROLE_RESTAURANT">
               <PostHistoryPage />
+            </ProtectedRoute>
+          ),
+        },
+      ],
+    },
+    {
+      path: "/consumer",
+      element: <RootConsumer />,
+      errorElement: <RootErrorPage />,
+      children: [
+        {
+          index: true,
+          element: (
+            <ProtectedRoute accessRole="ROLE_CONSUMER">
+              <HomePage />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "savedPosts",
+          element: (
+            <ProtectedRoute accessRole="ROLE_CONSUMER">
+              <ConsumerSavedPosts />
             </ProtectedRoute>
           ),
         },

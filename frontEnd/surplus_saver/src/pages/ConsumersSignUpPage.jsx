@@ -119,7 +119,7 @@ const ConsumersSignUpPage = () => {
       )}
       {errors.username && errors.username.type === "pattern" && (
         <span className="text-red-500">
-          UserName must start with a capital letter
+          User Name must start with a capital letter and cannot contain numbers
         </span>
       )}
 
