@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useState, useEffect } from "react";
 import { api } from "../Utils/backendApi";
 import axios from "axios";
@@ -27,6 +28,10 @@ const ConsumerSavedPosts = () => {
     getSavedPosts();
   }, []);
 
+  const handleDelete = (id) => {
+    setSavedPosts(savedPosts.filter((post) => post.id !== id));
+  };
+
   return (
     <div className="container mx-auto px-4">
       <h1 className="text-green text-3xl font-bold mb-4 text-center">
@@ -37,7 +42,7 @@ const ConsumerSavedPosts = () => {
       </p>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         {savedPosts.map((post) => (
-          <Post key={post.id} post={post} />
+          <Post consumer key={post.id} post={post} onDelete={handleDelete} />
         ))}
       </div>
     </div>

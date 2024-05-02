@@ -7,8 +7,10 @@ import Button from "./Button";
 import { api } from "../../Utils/backendApi";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../contexts/UserContext";
+import ButtonRotatingBackgroundGradient from "./ButtonRotatingBackgroundGradient";
+import ButtonAnimatedGradient from "./ButtonAnimatedGradient";
 
-const Post = ({ post, onDelete, restaurant }) => {
+const Post = ({ post, onDelete, restaurant, consumer }) => {
   const { userPhone } = useContext(UserContext);
   const [successMessage, setSuccessMessage] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
@@ -19,10 +21,29 @@ const Post = ({ post, onDelete, restaurant }) => {
     navigate(`/restaurant/modifyPost/${post.id}`);
   };
 
-  const deletePost = async () => {
+  const deletePostResto = async () => {
     try {
       const response = await axios.delete(
         `${api}/SurplusSaverApiV1/posts/deletePost/${post.id}`,
+        {
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          },
+        }
+      );
+      setSuccessMessage(response.data);
+      setErrorMessage(null);
+      setTimeout(() => onDelete(post.id), 2000); // 2000ms = 2 seconds
+    } catch (error) {
+      setErrorMessage("Failed to delete post: " + error);
+      setSuccessMessage(null);
+    }
+  };
+
+  const deletePostConsumer = async () => {
+    try {
+      const response = await axios.delete(
+        `${api}/SurplusSaverApiV1/posts/removeSavedPost/${post.id}`,
         {
           headers: {
             Authorization: localStorage.getItem("token"),
@@ -101,10 +122,16 @@ const Post = ({ post, onDelete, restaurant }) => {
           <Button info onClick={modifyPost}>
             Modify
           </Button>
-          <Button warning onClick={deletePost}>
+          <Button warning onClick={deletePostResto}>
             Delete
           </Button>
         </div>
+      )}
+      {consumer && (
+        <ButtonAnimatedGradient
+          onClick={deletePostConsumer}
+          content={"Remove"}
+        />
       )}
     </div>
   );
