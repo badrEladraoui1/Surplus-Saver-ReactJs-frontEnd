@@ -50,7 +50,12 @@ const PostHistoryPage = () => {
       </p>
       {posts.length > 0 ? (
         posts.map((post) => (
-          <Post restaurant key={post.id} post={post} onDelete={handleDelete} />
+          <Post
+            restaurant={true}
+            key={post.id}
+            post={post}
+            onDelete={handleDelete}
+          />
         ))
       ) : (
         <p className="text-center text-4xl">No posts yet.</p>

@@ -6,15 +6,38 @@ import { api } from "../../Utils/backendApi";
 import axios from "axios";
 import { useState } from "react";
 
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { UserContext } from "../../contexts/UserContext";
 import ButtonBackgroundShine from "./ButtonBackgroundShine ";
 import ButtonShadowGradient from "./ButtonShadowGradient";
 import Toast from "./Toast";
+import Menu from "../UI/Menu";
 
-const HomePost = ({ post, consumer }) => {
+const HomePost = ({ post, consumer, restaurant }) => {
   const { userPhone } = useContext(UserContext);
   const [toastInfo, setToastInfo] = useState(null);
+
+  const [reactions, setReactions] = useState([]);
+
+  useEffect(() => {
+    const fetchReactions = async () => {
+      try {
+        const response = await axios.get(
+          `${api}/SurplusSaverApiV1/posts/${post.id}/reactions`,
+          {
+            headers: {
+              Authorization: localStorage.getItem("token"),
+            },
+          }
+        );
+        setReactions(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchReactions();
+  }, [post.id]);
 
   const savePost = async () => {
     try {
@@ -69,10 +92,16 @@ const HomePost = ({ post, consumer }) => {
           </div>
         </section>
       ))}
-      <div className="flex justify-end">
+      <div className="flex justify-center">
         {consumer && (
-          <div className="inline-block">
-            <ButtonBackgroundShine onClick={savePost} content="Save post" />
+          <div className="flex justify-between">
+            <div className="inline-block">
+              <ButtonBackgroundShine content="Report post" />
+            </div>
+            <Menu className="mx-10" postId={post.id} reactions={reactions} />
+            <div className="inline-block">
+              <ButtonBackgroundShine onClick={savePost} content="Save post" />
+            </div>
           </div>
         )}
       </div>

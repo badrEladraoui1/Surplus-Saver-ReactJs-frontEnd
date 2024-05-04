@@ -3,9 +3,9 @@ import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
-const ProtectedRoute = ({ children, accessRole }) => {
+const ProtectedRoute = ({ children, accessRole, tokenRef }) => {
   const navigate = useNavigate();
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem(tokenRef);
   let role = null;
 
   if (token) {

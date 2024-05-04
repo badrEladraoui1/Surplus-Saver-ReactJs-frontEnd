@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 // HomePage.js
 import { useState, useEffect } from "react";
 import axios from "axios";
@@ -5,7 +6,8 @@ import { api } from "../Utils/backendApi";
 import HomePost from "../components/UI/HomePost";
 import PostLoading from "../components/UI/PostLoading";
 
-const HomePage = () => {
+// eslint-disable-next-line react/prop-types
+const HomePage = ({ restaurant, consumer }) => {
   const [posts, setPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -48,7 +50,12 @@ const HomePage = () => {
         items they offer. Browse through the posts to find the best deals!
       </p>
       {posts.map((post) => (
-        <HomePost key={post.id} post={post} consumer />
+        <HomePost
+          key={post.id}
+          post={post}
+          consumer={consumer}
+          restaurant={restaurant}
+        />
       ))}
     </div>
   );

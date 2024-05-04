@@ -125,6 +125,15 @@ const ModifyPostPage = () => {
 
   const onSubmit = async (data) => {
     try {
+      // Convert the postedAt string to a Date object
+      const postedAtDate = new Date(data.postedAt);
+
+      // Format the Date object as a string in the correct format
+      const postedAtString = postedAtDate.toISOString();
+
+      // Replace the postedAt field in the data object with the correctly formatted string
+      data.postedAt = postedAtString;
+
       console.log(data);
       const response = await axios.put(
         `${api}/SurplusSaverApiV1/posts/modifyPost/${id}`,
@@ -150,6 +159,34 @@ const ModifyPostPage = () => {
     }
     console.log("submitted : ", data);
   };
+
+  // const onSubmit = async (data) => {
+  //   try {
+  //     console.log(data);
+  //     const response = await axios.put(
+  //       `${api}/SurplusSaverApiV1/posts/modifyPost/${id}`,
+  //       data,
+  //       {
+  //         headers: {
+  //           Authorization: localStorage.getItem("token"),
+  //         },
+  //       }
+  //     );
+  //     setSuccessMessage(response.data); // assuming the response contains a message field
+  //     setErrorMessage("");
+  //     reset();
+
+  //     // Clear the success message after 3 seconds
+  //     setTimeout(() => {
+  //       setSuccessMessage("");
+  //     }, 3000);
+  //   } catch (error) {
+  //     console.error(error);
+  //     setErrorMessage("An error occurred while modifying the post.");
+  //     setSuccessMessage("");
+  //   }
+  //   console.log("submitted : ", data);
+  // };
 
   return (
     <section className="flex flex-col justify-center items-center text-center gap-10">

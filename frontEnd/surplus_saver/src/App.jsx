@@ -7,7 +7,7 @@ import SignInPage from "./pages/SignInPage";
 import Root from "./pages/Root";
 import RootErrorPage from "./pages/RootErrorPage";
 import AboutPage from "./pages/AboutPage";
-import HomePage from "./pages/RestoHomePage";
+import HomePage from "./pages/HomePage";
 import NewPostPage from "./pages/NewPostPage";
 import ModifyPostPage from "./pages/ModifyPostPage";
 import DeletePostPage from "./pages/DeletePostPage";
@@ -16,6 +16,13 @@ import RootRestaurant from "./pages/RootRestaurant";
 // import HomePageConsumer from "./pages/HomePageConsumer";
 import RootConsumer from "./pages/RootConsumer";
 import ConsumerSavedPosts from "./pages/ConsumerSavedPosts";
+import RootAdmin from "./pages/RootAdmin";
+import AdminLogin from "./pages/AdminLogin";
+import AdminUsers from "./pages/AdminUsers";
+import AdminPosts from "./pages/AdminPosts";
+import AdminChoices from "./pages/AdminChoices";
+import AdminReports from "./pages/AdminReports";
+import NewAdmin from "./pages/NewAdmin";
 
 import ProtectedRoute from "./protection/ProtectedRoute";
 
@@ -40,15 +47,15 @@ const App = () => {
         {
           index: true,
           element: (
-            <ProtectedRoute accessRole="ROLE_RESTAURANT">
-              <HomePage />
+            <ProtectedRoute tokenRef="token" accessRole="ROLE_RESTAURANT">
+              <HomePage restaurant={true} />
             </ProtectedRoute>
           ),
         },
         {
           path: "newPost",
           element: (
-            <ProtectedRoute accessRole="ROLE_RESTAURANT">
+            <ProtectedRoute tokenRef="token" accessRole="ROLE_RESTAURANT">
               <NewPostPage />
             </ProtectedRoute>
           ),
@@ -56,7 +63,7 @@ const App = () => {
         {
           path: "modifyPost/:id",
           element: (
-            <ProtectedRoute accessRole="ROLE_RESTAURANT">
+            <ProtectedRoute tokenRef="token" accessRole="ROLE_RESTAURANT">
               <ModifyPostPage />
             </ProtectedRoute>
           ),
@@ -64,7 +71,7 @@ const App = () => {
         {
           path: "deletePost/:id",
           element: (
-            <ProtectedRoute accessRole="ROLE_RESTAURANT">
+            <ProtectedRoute tokenRef="token" accessRole="ROLE_RESTAURANT">
               <DeletePostPage />
             </ProtectedRoute>
           ),
@@ -72,7 +79,7 @@ const App = () => {
         {
           path: "myPosts",
           element: (
-            <ProtectedRoute accessRole="ROLE_RESTAURANT">
+            <ProtectedRoute tokenRef="token" accessRole="ROLE_RESTAURANT">
               <PostHistoryPage />
             </ProtectedRoute>
           ),
@@ -87,16 +94,79 @@ const App = () => {
         {
           index: true,
           element: (
-            <ProtectedRoute accessRole="ROLE_CONSUMER">
-              <HomePage />
+            <ProtectedRoute tokenRef="token" accessRole="ROLE_CONSUMER">
+              <HomePage consumer={true} />
             </ProtectedRoute>
           ),
         },
         {
           path: "savedPosts",
           element: (
-            <ProtectedRoute accessRole="ROLE_CONSUMER">
+            <ProtectedRoute tokenRef="token" accessRole="ROLE_CONSUMER">
               <ConsumerSavedPosts />
+            </ProtectedRoute>
+          ),
+        },
+      ],
+    },
+    {
+      path: "/admin",
+      element: <RootAdmin />,
+      errorElement: <RootErrorPage />,
+      children: [
+        {
+          index: true,
+          element: (
+            // <ProtectedRoute tokenRef={"admin_token"} accessRole="ROLE_ADMIN">
+            <AdminLogin />
+            // </ProtectedRoute>
+          ),
+        },
+        {
+          path: "choices",
+          element: (
+            <ProtectedRoute tokenRef="admin_token" accessRole="ROLE_ADMIN">
+              <AdminChoices />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "users",
+          element: (
+            <ProtectedRoute tokenRef="admin_token" accessRole="ROLE_ADMIN">
+              <AdminUsers />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "posts",
+          element: (
+            <ProtectedRoute tokenRef="admin_token" accessRole="ROLE_ADMIN">
+              <AdminPosts />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "reports",
+          element: (
+            <ProtectedRoute tokenRef="admin_token" accessRole="ROLE_ADMIN">
+              <AdminReports />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "choices",
+          element: (
+            <ProtectedRoute tokenRef="admin_token" accessRole="ROLE_ADMIN">
+              <AdminChoices />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "newAdmin",
+          element: (
+            <ProtectedRoute tokenRef="admin_token" accessRole="ROLE_ADMIN">
+              <NewAdmin />
             </ProtectedRoute>
           ),
         },
