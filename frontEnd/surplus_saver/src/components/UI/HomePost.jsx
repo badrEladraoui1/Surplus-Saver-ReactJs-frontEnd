@@ -96,7 +96,7 @@ const HomePost = ({ post, consumer, restaurant }) => {
         {consumer && (
           <div className="flex justify-between">
             <div className="inline-block">
-              <ButtonBackgroundShine content="Report post" />
+              {/* <ButtonBackgroundShine content="Report post" /> */}
             </div>
             <Menu className="mx-10" postId={post.id} reactions={reactions} />
             <div className="inline-block">

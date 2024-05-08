@@ -4,6 +4,13 @@ import { useContext } from "react";
 import { UserContext } from "../../contexts/UserContext";
 
 const NavForUser = ({ userUserName }) => {
+  const { userRole } = useContext(UserContext);
+  let role = "";
+  if (userRole) {
+    role = userRole.split("_")[1].toLowerCase();
+  }
+  console.log(role);
+
   const { logout } = useContext(UserContext);
 
   return (
@@ -42,10 +49,12 @@ const NavForUser = ({ userUserName }) => {
               <a>{`Hello, ${userUserName}`}</a>
             </li>
             <li>
-              <a className="justify-between">
-                Profile
-                <span className="badge">New</span>
-              </a>
+              <Link to={`/${role}/profile`}>
+                <h6 className="justify-between">
+                  Profile
+                  <span className="badge">New</span>
+                </h6>
+              </Link>
             </li>
             {/* <li>
               <a>Settings</a>

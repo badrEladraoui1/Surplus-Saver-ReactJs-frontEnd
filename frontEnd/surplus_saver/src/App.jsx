@@ -13,7 +13,6 @@ import ModifyPostPage from "./pages/ModifyPostPage";
 import DeletePostPage from "./pages/DeletePostPage";
 import PostHistoryPage from "./pages/PostHistoryPage";
 import RootRestaurant from "./pages/RootRestaurant";
-// import HomePageConsumer from "./pages/HomePageConsumer";
 import RootConsumer from "./pages/RootConsumer";
 import ConsumerSavedPosts from "./pages/ConsumerSavedPosts";
 import RootAdmin from "./pages/RootAdmin";
@@ -25,6 +24,7 @@ import AdminReports from "./pages/AdminReports";
 import NewAdmin from "./pages/NewAdmin";
 
 import ProtectedRoute from "./protection/ProtectedRoute";
+import Profile from "./pages/Profile";
 
 const App = () => {
   const router = createBrowserRouter([
@@ -84,6 +84,14 @@ const App = () => {
             </ProtectedRoute>
           ),
         },
+        {
+          path: "profile",
+          element: (
+            <ProtectedRoute tokenRef="token" accessRole="ROLE_RESTAURANT">
+              <Profile />
+            </ProtectedRoute>
+          ),
+        },
       ],
     },
     {
@@ -104,6 +112,14 @@ const App = () => {
           element: (
             <ProtectedRoute tokenRef="token" accessRole="ROLE_CONSUMER">
               <ConsumerSavedPosts />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "profile",
+          element: (
+            <ProtectedRoute tokenRef="token" accessRole="ROLE_CONSUMER">
+              <Profile />
             </ProtectedRoute>
           ),
         },
@@ -164,11 +180,7 @@ const App = () => {
         },
         {
           path: "newAdmin",
-          element: (
-            <ProtectedRoute tokenRef="admin_token" accessRole="ROLE_ADMIN">
-              <NewAdmin />
-            </ProtectedRoute>
-          ),
+          element: <NewAdmin />,
         },
       ],
     },
