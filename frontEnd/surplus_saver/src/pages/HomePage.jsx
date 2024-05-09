@@ -23,6 +23,7 @@ const HomePage = ({ restaurant, consumer }) => {
             },
           }
         );
+
         setPosts(response.data);
         setIsLoading(false);
       } catch (error) {
@@ -33,6 +34,50 @@ const HomePage = ({ restaurant, consumer }) => {
 
     fetchPosts();
   }, []);
+
+  // useEffect(() => {
+  //   const fetchPosts = async () => {
+  //     try {
+  //       const response = await axios.get(
+  //         `${api}/SurplusSaverApiV1/posts/getAllPosts`,
+  //         {
+  //           headers: {
+  //             Authorization: localStorage.getItem("token"),
+  //           },
+  //         }
+  //       );
+
+  //       setPosts(response.data);
+  //       setIsLoading(false);
+
+  //       // Extract userProfilePictureUrl from the first post
+  //       const userProfilePictureUrl = response.data[0].userProfilePictureUrl;
+  //       console.log(userProfilePictureUrl);
+
+  //       // Fetch the image
+  //       const imageResponse = await axios.get(
+  //         `${api}/SurplusSaverApiV1/${userProfilePictureUrl}`,
+  //         {
+  //           responseType: "blob", // Important
+  //           headers: {
+  //             Authorization: localStorage.getItem("token"),
+  //           },
+  //         }
+  //       );
+
+  //       // Create a URL for the image
+  //       const imageUrl = URL.createObjectURL(imageResponse.data);
+
+  //       // Set the image URL in the state
+  //       setImageURL(imageUrl);
+  //     } catch (error) {
+  //       setError(error.message);
+  //       setIsLoading(false);
+  //     }
+  //   };
+
+  //   fetchPosts();
+  // }, []);
 
   if (isLoading) {
     return <PostLoading />;

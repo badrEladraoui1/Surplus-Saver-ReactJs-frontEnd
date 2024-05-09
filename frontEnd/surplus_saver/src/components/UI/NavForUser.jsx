@@ -4,6 +4,8 @@ import { useContext } from "react";
 import { UserContext } from "../../contexts/UserContext";
 
 const NavForUser = ({ userUserName }) => {
+  const { userProfilePic } = useContext(UserContext);
+
   const { userRole } = useContext(UserContext);
   let role = "";
   if (userRole) {
@@ -35,10 +37,7 @@ const NavForUser = ({ userUserName }) => {
             className="btn btn-ghost btn-circle avatar"
           >
             <div className="w-10 rounded-full">
-              <img
-                alt="Tailwind CSS Navbar component"
-                src="https://images.unsplash.com/photo-1619476006517-75d535a84652?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-              />
+              <img alt="Tailwind CSS Navbar component" src={userProfilePic} />
             </div>
           </div>
           <ul

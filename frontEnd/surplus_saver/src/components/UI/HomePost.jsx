@@ -5,6 +5,7 @@
 import { api } from "../../Utils/backendApi";
 import axios from "axios";
 import { useState } from "react";
+import useProfilePic from "../../hooks/useProfilePic";
 
 import { useContext, useEffect } from "react";
 import { UserContext } from "../../contexts/UserContext";
@@ -14,6 +15,34 @@ import Toast from "./Toast";
 import Menu from "../UI/Menu";
 
 const HomePost = ({ post, consumer, restaurant }) => {
+  const [imageURL, setImageURL] = useState("");
+
+  useEffect(() => {
+    const fetchImage = async () => {
+      try {
+        const response = await axios.get(
+          `${api}/SurplusSaverApiV1/${post.userProfilePictureUrl}`,
+          {
+            responseType: "blob",
+            headers: {
+              Authorization: localStorage.getItem("token"),
+            },
+          }
+        );
+
+        const imageUrl = URL.createObjectURL(response.data);
+        console.log(imageUrl);
+        setImageURL(imageUrl);
+      } catch (error) {
+        console.error("Failed to fetch image:", error);
+      }
+    };
+
+    fetchImage();
+  }, [post.userProfilePictureUrl]);
+
+  const profilePic = useProfilePic();
+
   const { userPhone } = useContext(UserContext);
   const [toastInfo, setToastInfo] = useState(null);
 
@@ -67,17 +96,22 @@ const HomePost = ({ post, consumer, restaurant }) => {
 
   return (
     <div className="border border-gray-300 p-6 my-6 rounded-md">
-      <h2 className="text-xl font-bold text-green-500 mb-4">
-        Restaurant&apos;s Name : {post.restaurantName}
-      </h2>
-      <h2 className="text-2xl font-bold text-green-500 mb-4">
-        Posted at : {post.postedAt}
-      </h2>
-      <h2 className="text-2xl font-bold text-green-500 mb-4">
-        Restaurant&apos;s Phone: {userPhone}
-      </h2>
+      <div className="flex gap-5">
+        <img className="size-60" src={imageURL} alt="" />
+        <div>
+          <h2 className="text-xl font-bold text-green-500 mb-4">
+            Restaurant&apos;s Name : {post.restaurantName}
+          </h2>
+          <h2 className="text-2xl font-bold text-green-500 mb-4">
+            Posted at : {post.postedAt}
+          </h2>
+          <h2 className="text-2xl font-bold text-green-500 mb-4">
+            Restaurant&apos;s Phone: {userPhone}
+          </h2>
+          <p className=" mb-4">Post Description: {post.postDescription}</p>
+        </div>
+      </div>
 
-      <p className=" mb-4">Post Description: {post.postDescription}</p>
       {post.items.map((item, index) => (
         <section className="flex flex-col" key={item.id}>
           <div className="border border-gray-300 p-4 my-4 rounded-md bg-gray-50">

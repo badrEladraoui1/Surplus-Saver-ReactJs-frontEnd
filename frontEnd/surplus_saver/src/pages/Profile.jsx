@@ -3,13 +3,22 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { api } from "../Utils/backendApi";
+import useProfilePic from "../hooks/useProfilePic";
+
+import { UserContext } from "../contexts/UserContext";
+import { useContext } from "react";
+import LoadingImage from "../components/UI/LoadingImage";
 
 const Profile = () => {
+  const { loadingImage, imageError, userProfilePic } = useContext(UserContext);
+
+  const profilePic = useProfilePic();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-    setValue, // add this line
+    setValue,
   } = useForm();
 
   const [serverImagePath, setServerImagePath] = useState("");
@@ -68,112 +77,6 @@ const Profile = () => {
     fetchProfile();
   }, [setValue]); // add setValue as a dependency
 
-  // useEffect(() => {
-  //   const fetchProfile = async () => {
-  //     try {
-  //       const response = await axios.get(
-  //         `${api}/SurplusSaverApiV1/users/profile`,
-  //         {
-  //           headers: {
-  //             Authorization: localStorage.getItem("token"),
-  //           },
-  //         }
-  //       );
-  //       console.log(response.data);
-
-  //       // set form values
-  //       setValue("username", response.data.username);
-  //       setValue("email", response.data.email);
-  //       setValue("phone", response.data.phone);
-  //       setValue("address", response.data.address);
-
-  //       const imagePath = response.data.imagePath;
-  //       setImagePath(imagePath);
-
-  //       // Fetch the image
-  //       if (imagePath) {
-  //         const imageResponse = await axios.get(
-  //           `${api}/SurplusSaverApiV1/${imagePath}`,
-  //           {
-  //             responseType: "blob", // Important
-  //             headers: {
-  //               Authorization: localStorage.getItem("token"),
-  //             },
-  //           }
-  //         );
-
-  //         // Create a URL for the image
-  //         const imageUrl = URL.createObjectURL(imageResponse.data);
-
-  //         // Set the image URL in the state
-  //         setImagePath(imageUrl);
-  //       }
-
-  //       // add more fields if needed
-  //     } catch (error) {
-  //       console.error("Failed to fetch profile:", error);
-  //     }
-  //   };
-
-  //   fetchProfile();
-  // }, [setValue]); // add setValue as a dependency
-
-  // useEffect(() => {
-  //   const fetchProfile = async () => {
-  //     try {
-  //       const response = await axios.get(
-  //         `${api}/SurplusSaverApiV1/users/profile`,
-  //         {
-  //           headers: {
-  //             Authorization: localStorage.getItem("token"),
-  //           },
-  //         }
-  //       );
-  //       console.log(response.data);
-
-  //       // set form values
-  //       setValue("username", response.data.username);
-  //       setValue("email", response.data.email);
-  //       setValue("phone", response.data.phone);
-  //       setValue("address", response.data.address);
-  //       setImagePath(response.data.imagePath);
-
-  //       // add more fields if needed
-  //     } catch (error) {
-  //       console.error("Failed to fetch profile:", error);
-  //     }
-  //   };
-
-  //   fetchProfile();
-  // }, [setValue]); // add setValue as a dependen
-
-  // useEffect(() => {
-  //   const fetchImage = async () => {
-  //     try {
-  //       const response = await axios.get(
-  //         `${api}/SurplusSaverApiV1/${imagePath}`,
-  //         {
-  //           responseType: "blob", // Important
-  //           headers: {
-  //             Authorization: localStorage.getItem("token"),
-  //           },
-  //         }
-  //       );
-
-  //       // Create a URL for the image
-  //       const imageUrl = URL.createObjectURL(response.data);
-
-  //       // Set the image URL in the state
-  //       setImagePath(imageUrl);
-  //     } catch (error) {
-  //       console.error("Failed to fetch image:", error);
-  //     }
-  //   };
-
-  //   // Call the function to fetch the image
-  //   fetchImage();
-  // }, [imagePath]); // Add imagePath as a dependency
-
   const onSubmit = async (data) => {
     try {
       const formData = new FormData();
@@ -197,8 +100,21 @@ const Profile = () => {
 
   return (
     <div className="flex justify-center items-center h-screen gap-20">
-      <div className="border-2 border-white p-5 rounded-md">
-        {imageURL && <img src={imageURL} alt="User image" />}
+      <div className="avatar ">
+        {/* <div className=" border-2 border-white p-5 rounded-md flex flex-col justify-center items-center text-center w-80">
+          {imageURL ? (
+            <img
+              className="size-[30rem]"
+              src={userProfilePic}
+              alt="User image"
+            />
+          ) : loadingImage ? (
+            <LoadingImage />
+          ) : (
+            imageError && "Error"
+          )}
+        </div> */}
+        {profilePic}
       </div>
       <div className="w-full max-w-md">
         <form
