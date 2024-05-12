@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-const ButtonBackgroundShine = ({ content , ...props }) => {
+const ButtonBackgroundShine = ({ content, ...props }) => {
   return (
     <button
       {...props}

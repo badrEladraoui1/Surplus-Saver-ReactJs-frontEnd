@@ -11,7 +11,6 @@ const NavForUser = ({ userUserName }) => {
   if (userRole) {
     role = userRole.split("_")[1].toLowerCase();
   }
-  console.log(role);
 
   const { logout } = useContext(UserContext);
 

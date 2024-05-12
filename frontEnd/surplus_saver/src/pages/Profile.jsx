@@ -10,7 +10,7 @@ import { useContext } from "react";
 import LoadingImage from "../components/UI/LoadingImage";
 
 const Profile = () => {
-  const { loadingImage, imageError, userProfilePic } = useContext(UserContext);
+  const { userProfilePic } = useContext(UserContext);
 
   const profilePic = useProfilePic();
 
@@ -100,22 +100,7 @@ const Profile = () => {
 
   return (
     <div className="flex justify-center items-center h-screen gap-20">
-      <div className="avatar ">
-        {/* <div className=" border-2 border-white p-5 rounded-md flex flex-col justify-center items-center text-center w-80">
-          {imageURL ? (
-            <img
-              className="size-[30rem]"
-              src={userProfilePic}
-              alt="User image"
-            />
-          ) : loadingImage ? (
-            <LoadingImage />
-          ) : (
-            imageError && "Error"
-          )}
-        </div> */}
-        {profilePic}
-      </div>
+      {profilePic ? <div className="avatar ">{profilePic}</div> : "daa"}
       <div className="w-full max-w-md">
         <form
           onSubmit={handleSubmit(onSubmit)}

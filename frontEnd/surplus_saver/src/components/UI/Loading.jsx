@@ -1,7 +1,12 @@
-const Loading = () => {
+/* eslint-disable react/prop-types */
+const Loading = ({ className }) => {
   return (
     <section className="flex gap-3">
-      <h1 className="text-3xl font-bold mb-4 text-yellow text-center">
+      <h1
+        className={` text-3xl font-bold mb-4 text-center ${
+          className ? className : "text-yellow"
+        }`}
+      >
         Loading{" "}
       </h1>
       <span className="loading loading-infinity loading-lg"></span>

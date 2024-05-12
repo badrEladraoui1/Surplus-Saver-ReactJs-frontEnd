@@ -12,8 +12,10 @@ const useProfilePic = () => {
         <img className="size-[30rem]" src={userProfilePic} alt="User image" />
       ) : loadingImage ? (
         <LoadingImage />
+      ) : imageError ? (
+        "Error"
       ) : (
-        imageError && "Error"
+        "Upload your profile picture"
       )}
     </div>
   );

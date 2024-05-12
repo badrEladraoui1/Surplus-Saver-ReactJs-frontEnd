@@ -15,6 +15,9 @@ const ModifyPostPage = () => {
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
+  const [itemImages, setItemImages] = useState([]);
+  console.log(itemImages);
+
   const { register, control, handleSubmit, reset, setValue } = useForm();
   const { fields, append, remove } = useFieldArray({
     control,
@@ -41,7 +44,6 @@ const ModifyPostPage = () => {
           }
         );
         const data = response.data;
-        console.log(data);
         setPostData(data);
         Object.keys(data).forEach((key) => {
           if (key !== "items") {
@@ -50,6 +52,18 @@ const ModifyPostPage = () => {
         });
         if (data.items) {
           setValue("items", data.items);
+
+          // Fetch the images for each item
+          const images = await Promise.all(
+            data.items.map((item) =>
+              axios.get(`${api}/SurplusSaverApiV1/items/${item.id}`, {
+                headers: {
+                  Authorization: localStorage.getItem("token"),
+                },
+              })
+            )
+          );
+          setItemImages(images.map((response) => response.data));
         }
       } catch (error) {
         console.error(error);
@@ -57,7 +71,6 @@ const ModifyPostPage = () => {
     };
     fetchData();
   }, [id, setValue]);
-
   // useEffect(() => {
   //   const fetchData = async () => {
   //     try {
@@ -78,16 +91,7 @@ const ModifyPostPage = () => {
   //         }
   //       });
   //       if (data.items) {
-  //         const items = [...data.items];
-  //         while (items.length < 3) {
-  //           items.push({
-  //             itemName: "",
-  //             itemType: "",
-  //             quantity: "",
-  //             description: "",
-  //           });
-  //         }
-  //         setValue("items", items);
+  //         setValue("items", data.items);
   //       }
   //     } catch (error) {
   //       console.error(error);
@@ -134,7 +138,16 @@ const ModifyPostPage = () => {
       // Replace the postedAt field in the data object with the correctly formatted string
       data.postedAt = postedAtString;
 
-      console.log(data);
+      // Make a copy of the items array
+      const items = [...data.items];
+
+      // Remove the image files from the items in the data object
+      data.items = data.items.map((item) => {
+        const { image, ...itemWithoutImage } = item;
+        return itemWithoutImage;
+      });
+
+      // Modify the post
       const response = await axios.put(
         `${api}/SurplusSaverApiV1/posts/modifyPost/${id}`,
         data,
@@ -144,24 +157,39 @@ const ModifyPostPage = () => {
           },
         }
       );
+
       setSuccessMessage(response.data); // assuming the response contains a message field
       setErrorMessage("");
       reset();
 
-      // Clear the success message after 3 seconds
+      // Clear messages after 3 seconds
       setTimeout(() => {
         setSuccessMessage("");
+        setErrorMessage("");
       }, 3000);
     } catch (error) {
       console.error(error);
       setErrorMessage("An error occurred while modifying the post.");
       setSuccessMessage("");
-    }
-    console.log("submitted : ", data);
-  };
 
+      // Clear messages after 3 seconds
+      setTimeout(() => {
+        setSuccessMessage("");
+        setErrorMessage("");
+      }, 3000);
+    }
+  };
   // const onSubmit = async (data) => {
   //   try {
+  //     // Convert the postedAt string to a Date object
+  //     const postedAtDate = new Date(data.postedAt);
+
+  //     // Format the Date object as a string in the correct format
+  //     const postedAtString = postedAtDate.toISOString();
+
+  //     // Replace the postedAt field in the data object with the correctly formatted string
+  //     data.postedAt = postedAtString;
+
   //     console.log(data);
   //     const response = await axios.put(
   //       `${api}/SurplusSaverApiV1/posts/modifyPost/${id}`,
@@ -255,7 +283,7 @@ const ModifyPostPage = () => {
             className="block w-full p-2 border border-gray-300 rounded"
           />
         </div>
-        <div className="flex space-x-4 ">
+        <div className="flex space-x-4  ">
           {fields.map((item, index) => (
             <div key={item.id} className="space-y-2">
               <input

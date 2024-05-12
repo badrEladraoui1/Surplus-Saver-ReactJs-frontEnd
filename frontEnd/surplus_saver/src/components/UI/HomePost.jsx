@@ -7,6 +7,9 @@ import axios from "axios";
 import { useState } from "react";
 import useProfilePic from "../../hooks/useProfilePic";
 
+import LoadingImage from "../UI/LoadingImage";
+import InterestedPostModal from "../UI/InterestedPostModal";
+
 import { useContext, useEffect } from "react";
 import { UserContext } from "../../contexts/UserContext";
 import ButtonBackgroundShine from "./ButtonBackgroundShine ";
@@ -16,9 +19,22 @@ import Menu from "../UI/Menu";
 
 const HomePost = ({ post, consumer, restaurant }) => {
   const [imageURL, setImageURL] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
   useEffect(() => {
     const fetchImage = async () => {
+      setIsLoading(true);
       try {
         const response = await axios.get(
           `${api}/SurplusSaverApiV1/${post.userProfilePictureUrl}`,
@@ -31,10 +47,11 @@ const HomePost = ({ post, consumer, restaurant }) => {
         );
 
         const imageUrl = URL.createObjectURL(response.data);
-        console.log(imageUrl);
         setImageURL(imageUrl);
+        setIsLoading(false);
       } catch (error) {
-        console.error("Failed to fetch image:", error);
+        setError(error.message);
+        setIsLoading(false);
       }
     };
 
@@ -97,7 +114,15 @@ const HomePost = ({ post, consumer, restaurant }) => {
   return (
     <div className="border border-gray-300 p-6 my-6 rounded-md">
       <div className="flex gap-5">
-        <img className="size-60" src={imageURL} alt="" />
+        <div className="border border-gray-300 p-6 my-6 rounded-md">
+          {isLoading ? (
+            <LoadingImage className="size-60" />
+          ) : error ? (
+            <div className="size-60">Error: {error}</div>
+          ) : (
+            <img className="size-60" src={imageURL} alt="" />
+          )}
+        </div>
         <div>
           <h2 className="text-xl font-bold text-green-500 mb-4">
             Restaurant&apos;s Name : {post.restaurantName}
@@ -130,7 +155,16 @@ const HomePost = ({ post, consumer, restaurant }) => {
         {consumer && (
           <div className="flex justify-between">
             <div className="inline-block">
-              {/* <ButtonBackgroundShine content="Report post" /> */}
+              <ButtonBackgroundShine
+                content="I am interested"
+                onClick={openModal}
+              />
+              <InterestedPostModal
+                isModalOpen={isModalOpen}
+                onCloseModal={closeModal}
+                restaurantName={post.restaurantName}
+                postId={post.id}
+              />
             </div>
             <Menu className="mx-10" postId={post.id} reactions={reactions} />
             <div className="inline-block">

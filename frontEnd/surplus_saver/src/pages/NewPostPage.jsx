@@ -85,6 +85,137 @@ const NewPostPage = () => {
     }
   };
 
+  // const onSubmit = async (data) => {
+  //   try {
+  //     // Upload images and add URLs to item data
+  //     for (let i = 0; i < data.items.length; i++) {
+  //       const item = data.items[i];
+  //       if (item.id !== undefined) {
+  //         const formData = new FormData();
+  //         formData.append("file", item.image[0]);
+  //         console.log(item.image[0]);
+  //         formData.append("itemId", item.id.toString());
+  //         console.log(item.id);
+  //         console.log(formData);
+  //         const response = await axios.post(
+  //           `${api}/SurplusSaverApiV1/items/uploadImage`,
+  //           formData,
+  //           {
+  //             headers: {
+  //               Authorization: localStorage.getItem("token"),
+  //               "Content-Type": "multipart/form-data", // add this line
+  //             },
+  //           }
+  //         );
+  //         item.image = response.data; // Replace file with URL
+  //         console.log(response.data);
+  //       }
+  //     }
+
+  //     const response = await axios.post(
+  //       `${api}/SurplusSaverApiV1/posts/createPost`,
+  //       data,
+  //       {
+  //         headers: {
+  //           Authorization: localStorage.getItem("token"),
+  //         },
+  //       }
+  //     );
+  //     console.log(data);
+  //     setSuccessMessage(response.data);
+  //     setTimeout(() => {
+  //       setSuccessMessage(null);
+  //     }, 3000);
+  //     reset();
+  //   } catch (error) {
+  //     setErrorMessage(null);
+  //     if (error.response) {
+  //       setErrorMessage("there was an error while creating the post");
+  //     } else if (error.request) {
+  //       setErrorMessage("No response received from server");
+  //     } else {
+  //       setErrorMessage("An error occurred while sending the request");
+  //     }
+  //     setTimeout(() => {
+  //       setErrorMessage(null);
+  //     }, 3000);
+  //   }
+  // };
+
+  // const onSubmit = async (data) => {
+  //   console.log(data);
+  //   try {
+  //     const formData = new FormData();
+
+  //     // Append all images and item IDs to formData
+  //     data.items.forEach((item, index) => {
+  //       console.log(item.image[0]);
+  //       formData.append("files", item.image[0]);
+  //       if (item.id !== undefined) {
+  //         formData.append("itemIds", item.id ? item.id.toString() : "");
+  //       }
+  //     });
+
+  //     // Log the contents of formData for debugging
+  //     for (let pair of formData.entries()) {
+  //       console.log(pair[0] + ", " + pair[1]);
+  //     }
+
+  //     // Upload images
+  //     const imageResponse = await axios.post(
+  //       `${api}/SurplusSaverApiV1/items/uploadImage`,
+  //       formData,
+  //       {
+  //         headers: {
+  //           Authorization: localStorage.getItem("token"),
+  //           "Content-Type": "multipart/form-data",
+  //         },
+  //       }
+  //     );
+
+  //     // Replace image files with URLs in item data
+  //     if (Array.isArray(imageResponse.data)) {
+  //       imageResponse.data.forEach((url, index) => {
+  //         data.items[index].image = url;
+  //       });
+  //     }
+
+  //     // // Replace image files with URLs in item data
+  //     // imageResponse.data.forEach((url, index) => {
+  //     //   data.items[index].image = url;
+  //     // });
+
+  //     // Create post
+  //     const postResponse = await axios.post(
+  //       `${api}/SurplusSaverApiV1/posts/createPost`,
+  //       data,
+  //       {
+  //         headers: {
+  //           Authorization: localStorage.getItem("token"),
+  //         },
+  //       }
+  //     );
+
+  //     setSuccessMessage(postResponse.data);
+  //     setTimeout(() => {
+  //       setSuccessMessage(null);
+  //     }, 3000);
+  //     reset();
+  //   } catch (error) {
+  //     setErrorMessage(null);
+  //     if (error.response) {
+  //       setErrorMessage("there was an error while creating the post");
+  //     } else if (error.request) {
+  //       setErrorMessage("No response received from server");
+  //     } else {
+  //       setErrorMessage("An error occurred while sending the request");
+  //     }
+  //     setTimeout(() => {
+  //       setErrorMessage(null);
+  //     }, 3000);
+  //   }
+  // };
+
   return (
     <section className="flex flex-col justify-center items-center text-center gap-10">
       <div>

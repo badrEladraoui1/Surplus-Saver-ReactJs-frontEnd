@@ -22,6 +22,7 @@ import AdminPosts from "./pages/AdminPosts";
 import AdminChoices from "./pages/AdminChoices";
 import AdminReports from "./pages/AdminReports";
 import NewAdmin from "./pages/NewAdmin";
+import InterestRequestsPage from "./pages/InterestRequestsPage";
 
 import ProtectedRoute from "./protection/ProtectedRoute";
 import Profile from "./pages/Profile";
@@ -81,6 +82,14 @@ const App = () => {
           element: (
             <ProtectedRoute tokenRef="token" accessRole="ROLE_RESTAURANT">
               <PostHistoryPage />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "interest_requests",
+          element: (
+            <ProtectedRoute tokenRef="token" accessRole="ROLE_RESTAURANT">
+              <InterestRequestsPage />
             </ProtectedRoute>
           ),
         },
