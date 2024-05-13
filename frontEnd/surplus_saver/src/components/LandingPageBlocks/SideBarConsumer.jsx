@@ -23,6 +23,15 @@ const SideBarConsumer = () => {
           Saved Posts
         </NavLink>
       </li>
+      <li>
+        {" "}
+        <NavLink
+          to="/consumer/interests_feedbacks"
+          className={({ isActive }) => (isActive ? "text-blue" : undefined)}
+        >
+          Interests Feedbacks
+        </NavLink>
+      </li>
     </ul>
   );
 };

@@ -162,6 +162,7 @@ const InterestRequestsPage = () => {
           Here you can see all the interest requests you&apos;ve received. You
           can <span className="text-green">accept</span> or{" "}
           <span className="text-red-500">deny</span> these requests.
+          <p>{interests.length === 0 && "No requests to show."}</p>
         </p>
       </div>
 
