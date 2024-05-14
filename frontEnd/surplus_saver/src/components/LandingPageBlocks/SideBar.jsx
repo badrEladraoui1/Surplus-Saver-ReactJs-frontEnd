@@ -50,6 +50,15 @@ const SideBar = () => {
           Interest Requests
         </NavLink>
       </li>
+      <li>
+        {" "}
+        <NavLink
+          to="/restaurant/post_feedbacks"
+          className={({ isActive }) => (isActive ? "text-yellow" : undefined)}
+        >
+          Posts Feedbacks
+        </NavLink>
+      </li>
     </ul>
   );
 };

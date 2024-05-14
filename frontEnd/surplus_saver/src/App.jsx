@@ -24,6 +24,7 @@ import AdminReports from "./pages/AdminReports";
 import NewAdmin from "./pages/NewAdmin";
 import InterestRequestsPage from "./pages/InterestRequestsPage";
 import InterestsFeedbacks from "./pages/InterestsFeedbacks";
+import FeedbacksRestau from "./pages/FeedbacksRestau";
 
 import ProtectedRoute from "./protection/ProtectedRoute";
 import Profile from "./pages/Profile";
@@ -99,6 +100,14 @@ const App = () => {
           element: (
             <ProtectedRoute tokenRef="token" accessRole="ROLE_RESTAURANT">
               <Profile />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "post_feedbacks",
+          element: (
+            <ProtectedRoute tokenRef="token" accessRole="ROLE_RESTAURANT">
+              <FeedbacksRestau />
             </ProtectedRoute>
           ),
         },
