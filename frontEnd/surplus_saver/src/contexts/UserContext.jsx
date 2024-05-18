@@ -13,8 +13,10 @@ export const UserContext = createContext({
   userProfilePic: "",
   loadingImage: false,
   imageError: null,
+  searchResults: [],
   setUserUserName: () => {},
   logout: () => {},
+  setSearchResults: () => {},
 });
 
 function UserContextProvider({ children }) {
@@ -26,6 +28,10 @@ function UserContextProvider({ children }) {
   const [userProfilePic, setUserProfilePic] = useState("");
   const [loadingImage, setLoadingImage] = useState(false);
   const [imageError, setImageError] = useState(null);
+  const [searchResults, setSearchResults] = useState([]);
+
+  console.log(searchResults, "searchResults");
+
   const [token, setToken] = useState(localStorage.getItem("token"));
 
   useEffect(() => {
@@ -117,8 +123,10 @@ function UserContextProvider({ children }) {
     userProfilePic: userProfilePic,
     loadingImage: loadingImage,
     imageError: imageError,
+    searchResults: searchResults,
     setUserUserName: setUserUserName,
     logout: logout,
+    setSearchResults: setSearchResults,
   };
 
   return (

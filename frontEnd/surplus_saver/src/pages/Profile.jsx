@@ -9,8 +9,11 @@ import { UserContext } from "../contexts/UserContext";
 import { useContext } from "react";
 import LoadingImage from "../components/UI/LoadingImage";
 
+import Toast from "../components/UI/Toast";
+
 const Profile = () => {
   const { userProfilePic } = useContext(UserContext);
+  const [toastInfo, setToastInfo] = useState("");
 
   const profilePic = useProfilePic();
 
@@ -93,8 +96,16 @@ const Profile = () => {
         }
       );
       console.log("submitted : ", response.data);
+      setToastInfo({
+        type: "success",
+        message:
+          "Profile updated successfully! refresh the page to see changes.",
+      });
+      setTimeout(() => setToastInfo(null), 3000);
     } catch (error) {
       console.error("Failed to update profile:", error);
+      setToastInfo({ type: "error", message: "Failed to update profile." });
+      setTimeout(() => setToastInfo(null), 3000);
     }
   };
 
@@ -185,11 +196,20 @@ const Profile = () => {
           <div className="flex items-center justify-center ">
             <input
               type="submit"
-              className="bg-blue-500 hover:bg-blue-700 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline text-center cursor-pointer"
+              value="Update"
+              className=" hover:bg-gray-500 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline text-center cursor-pointer"
             />
           </div>
         </form>
       </div>
+      {toastInfo && (
+        <Toast
+          content={toastInfo.message}
+          success={toastInfo.type === "success"}
+          info={toastInfo.type === "info"}
+          error={toastInfo.type === "error"}
+        />
+      )}
     </div>
   );
 };

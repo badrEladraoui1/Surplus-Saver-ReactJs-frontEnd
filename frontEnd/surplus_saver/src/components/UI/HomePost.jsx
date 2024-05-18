@@ -144,7 +144,7 @@ const HomePost = ({ post, consumer, restaurant }) => {
               ITEM {index + 1}: {item.itemName}
             </h3>
             <p className="text-sm text-gray-500">Type: {item.itemType}</p>
-            <p className="text-sm text-gray-500">Quantity: {item.quantity}</p>
+            <p className="text-sm text-gray-500">Quantity: {item.quantity}KG</p>
             <p className="text-sm text-gray-500">
               Description: {item.description}
             </p>

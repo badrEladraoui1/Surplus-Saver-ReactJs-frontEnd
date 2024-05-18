@@ -1,18 +1,44 @@
 /* eslint-disable react/prop-types */
 import { Link } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { UserContext } from "../../contexts/UserContext";
+import Button from "./Button";
+import axios from "axios";
+import { api } from "../../Utils/backendApi";
 
 const NavForUser = ({ userUserName }) => {
-  const { userProfilePic } = useContext(UserContext);
+  const { userProfilePic, userRole, logout, setSearchResults } =
+    useContext(UserContext);
+  const [searchInput, setSearchInput] = useState("");
 
-  const { userRole } = useContext(UserContext);
   let role = "";
   if (userRole) {
     role = userRole.split("_")[1].toLowerCase();
   }
 
-  const { logout } = useContext(UserContext);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (searchInput) {
+      try {
+        const response = await axios.get(
+          `${api}/SurplusSaverApiV1/posts/search?keyword=${searchInput}`,
+          {
+            headers: {
+              Authorization: localStorage.getItem("token"),
+            },
+          }
+        );
+        setSearchResults(response.data);
+        console.log(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
+
+  const handleInputChange = (event) => {
+    setSearchInput(event.target.value);
+  };
 
   return (
     <div className="navbar bg-base-100 -z-20">
@@ -22,13 +48,21 @@ const NavForUser = ({ userUserName }) => {
         </Link>
       </div>
       <div className="flex-none gap-2">
-        <div className="form-control">
-          <input
-            type="text"
-            placeholder="Search"
-            className="input input-bordered w-24 md:w-auto"
-          />
-        </div>
+        <form onSubmit={handleSubmit}>
+          <div className="flex">
+            <input
+              type="text"
+              placeholder="Search"
+              className="input input-bordered w-24 md:w-auto"
+              value={searchInput}
+              onChange={handleInputChange}
+            />
+            <Button ghost type="submit">
+              Search
+            </Button>
+          </div>
+        </form>
+
         <div className="dropdown dropdown-end">
           <div
             tabIndex={0}
