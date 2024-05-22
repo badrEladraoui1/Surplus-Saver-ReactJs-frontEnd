@@ -270,7 +270,7 @@ const ModifyPostPage = () => {
           <label className="block font-medium text-xl">Restaurant Name:</label>
           <input
             {...register("restaurantName")}
-            className="block w-full p-2 border border-gray-300 rounded"
+            className="input input-bordered w-full max-w-xs"
             disabled
           />
         </div>
@@ -280,31 +280,31 @@ const ModifyPostPage = () => {
           </label>
           <textarea
             {...register("postDescription")}
-            className="block w-full p-2 border border-gray-300 rounded"
+            className="textarea textarea-bordered"
           />
         </div>
         <div className="flex space-x-4  ">
           {fields.map((item, index) => (
-            <div key={item.id} className="space-y-2">
+            <div key={item.id} className="space-y-2 flex flex-col">
               <input
                 {...register(`items.${index}.itemName`)}
                 placeholder="Enter Item Name"
-                className="block w-full p-2 border border-gray-300 rounded"
+                className="input input-bordered w-full max-w-xs"
               />
               <input
                 {...register(`items.${index}.itemType`)}
                 placeholder="Enter Item Type"
-                className="block w-full p-2 border border-gray-300 rounded"
+                className="input input-bordered w-full max-w-xs"
               />
               <input
                 {...register(`items.${index}.quantity`)}
                 placeholder="Enter Quantity"
-                className="block w-full p-2 border border-gray-300 rounded"
+                className="input input-bordered w-full max-w-xs"
               />
               <textarea
                 {...register(`items.${index}.description`)}
                 placeholder="Enter Description"
-                className="block w-full p-2 border border-gray-300 rounded"
+                className="textarea textarea-bordered"
               />
               <Button outline_error type="button" onClick={() => remove(index)}>
                 Remove

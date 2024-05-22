@@ -53,10 +53,11 @@ const FeedbacksRestau = () => {
         <h1 className="text-4xl font-bold mb-4 text-orange">Feedbacks</h1>
         <p className="text-xl mb-8">
           Here you can see all the feedbacks received for your posts.
+          {posts.length === 0 && <p> No feedbacks yet :( </p>}
         </p>
       </div>
 
-      {posts ? (
+      {posts &&
         posts.map((post) => (
           <div
             key={post.id}
@@ -82,10 +83,7 @@ const FeedbacksRestau = () => {
               ))}
             </div>
           </div>
-        ))
-      ) : (
-        <p>No feedbacks yet</p>
-      )}
+        ))}
     </div>
   );
 };

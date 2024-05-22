@@ -123,7 +123,7 @@ const HomePost = ({ post, consumer, restaurant }) => {
             <img className="size-60" src={imageURL} alt="" />
           )}
         </div>
-        <div>
+        <div className="mt-5">
           <h2 className="text-xl font-bold text-green-500 mb-4">
             Restaurant&apos;s Name : {post.restaurantName}
           </h2>
