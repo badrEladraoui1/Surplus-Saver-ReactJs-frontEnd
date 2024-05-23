@@ -1,6 +1,5 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import UserContextProvider from "./contexts/UserContext";
-import SearchResultsProvider from "./contexts/SearchResultsContext";
 
 import LandingPage from "./pages/LandingPage";
 import SignUpPge from "./pages/SignUpPage";

@@ -13,7 +13,6 @@ import InterestedPostModal from "../UI/InterestedPostModal";
 import { useContext, useEffect } from "react";
 import { UserContext } from "../../contexts/UserContext";
 import ButtonBackgroundShine from "./ButtonBackgroundShine ";
-import ButtonShadowGradient from "./ButtonShadowGradient";
 import Toast from "./Toast";
 import Menu from "../UI/Menu";
 
@@ -120,11 +119,11 @@ const HomePost = ({ post, consumer, restaurant }) => {
           ) : error ? (
             <div className="size-60">Error: {error}</div>
           ) : (
-            <img className="size-60" src={imageURL} alt="" />
+            <img className="size-60" src={imageURL} />
           )}
         </div>
         <div className="mt-5">
-          <h2 className="text-xl font-bold text-green-500 mb-4">
+          <h2 className="text-4xl font-bold text-green-500 mb-4">
             Restaurant&apos;s Name : {post.restaurantName}
           </h2>
           <h2 className="text-2xl font-bold text-green-500 mb-4">
