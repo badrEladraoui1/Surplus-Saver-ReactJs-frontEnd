@@ -64,7 +64,7 @@ const InterestsFeedbacks = () => {
                 : "text-teal-300"
             }
           >
-            {interest.status || "not yet responded to"}
+            {interest.status || "pending"}
           </span>{" "}
           by <span className="text-yellow">{interest.username}.</span>{" "}
           {interest.status === "accepted" && (

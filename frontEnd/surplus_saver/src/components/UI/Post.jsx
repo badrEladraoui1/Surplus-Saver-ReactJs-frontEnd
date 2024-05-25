@@ -2,7 +2,7 @@
 /* eslint-disable react/prop-types */
 // Post.jsx
 import axios from "axios";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import Button from "./Button";
 import { api } from "../../Utils/backendApi";
 import { useNavigate } from "react-router-dom";
@@ -11,10 +11,36 @@ import ButtonRotatingBackgroundGradient from "./ButtonRotatingBackgroundGradient
 import ButtonAnimatedGradient from "./ButtonAnimatedGradient";
 
 const Post = ({ post, onDelete, restaurant, consumer }) => {
+  console.log(post);
   const { userPhone } = useContext(UserContext);
   const [successMessage, setSuccessMessage] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
+  const [imagePath, setImagePath] = useState("");
+  console.log(imagePath);
 
+  useEffect(() => {
+    const getImage = async () => {
+      if (post.userProfilePictureUrl) {
+        const imageResponse = await axios.get(
+          `${api}/SurplusSaverApiV1/${post.userProfilePictureUrl}`,
+          {
+            responseType: "blob", // Important
+            headers: {
+              Authorization: localStorage.getItem("token"),
+            },
+          }
+        );
+
+        // Create a URL for the image
+        const imageUrl = URL.createObjectURL(imageResponse.data);
+
+        // Set the image URL in the state
+        setImagePath(imageUrl);
+      }
+    };
+
+    getImage();
+  }, [post.userProfilePictureUrl]);
   const navigate = useNavigate();
 
   const modifyPost = () => {
@@ -60,7 +86,7 @@ const Post = ({ post, onDelete, restaurant, consumer }) => {
   };
 
   return (
-    <div className="mb-6 p-4 border rounded shadow">
+    <div className="mb-6 border-4 border-silver shadow p-7 rounded-lg">
       {errorMessage && (
         <div role="alert" className="alert alert-error">
           <svg
@@ -97,26 +123,58 @@ const Post = ({ post, onDelete, restaurant, consumer }) => {
           <span>{successMessage}</span>
         </div>
       )}
-      <h2 className="text-2xl font-bold mb-2">
-        Restaurant&apos;s name : {post.restaurantName}
-      </h2>
-      <h2 className="text-2xl font-bold mb-2">Posted at : {post.postedAt}</h2>
-      <h2 className="text-2xl font-bold mb-2">
-        Restaurant&apos;s phone : {userPhone}
-      </h2>
-      <p className="mb-2">Post&apos;s description : {post.postDescription}</p>
-      {post.items && (
-        <ul className="list-disc pl-5">
-          {post.items.map((item) => (
-            <li key={item.id} className="mb-2">
-              <h4 className="font-bold">{item.itemName}</h4>
-              <p>Type: {item.itemType}</p>
-              <p>Quantity: {item.quantity}</p>
-              <p>Description: {item.description}</p>
-            </li>
-          ))}
-        </ul>
-      )}
+      <div className="flex flex-col">
+        <h2 className="text-4xl font-bold text-green-500 mb-10">
+          <div className="flex justify-center items-center gap-3">
+            <div className="avatar">
+              <div className="w-24 mask mask-hexagon">
+                <img src={imagePath} />
+              </div>
+            </div>
+            <span className="italic text-[#bec6d5]">{post.restaurantName}</span>
+          </div>
+        </h2>
+        <div className="flex flex-col gap-1 mb-5">
+          <h2 className="text-2xl font-bold text-green-500">
+            Posted at : <span className="text-[#8f96a2]">{post.postedAt}</span>
+          </h2>
+          <h2 className="text-2xl font-bold text-green-500">
+            Restaurant&apos;s Phone:{" "}
+            <span className="text-[#8f96a2]">{userPhone}</span>
+          </h2>
+          <p className=" text-2xl font-bold text-green-500">
+            Post Description:{" "}
+            <span className="text-[#8f96a2]">{post.postDescription}</span>
+          </p>
+        </div>
+      </div>
+
+      {post.items.map((item, index) => (
+        <section className="flex flex-col" key={item.id}>
+          <div className="border border-gray-300 p-4 my-4 rounded-md bg-gray-50">
+            <h3 className="text-3xl font-bold text-gray-600 mb-2">
+              ITEM {index + 1} :{" "}
+              <span className="underline-offset-4">
+                <span className="italic text-3xl font-extrabold">
+                  {item.itemName}
+                </span>
+              </span>
+            </h3>
+            <p className="text-2xl text-gray-500 font-bold">
+              Type:{" "}
+              <span className="text-black font-mono">{item.itemType}</span>
+            </p>
+            <p className="text-2xl text-gray-500 font-bold">
+              Quantity:{" "}
+              <span className="text-black font-mono">{item.quantity}KG</span>
+            </p>
+            <p className="text-2xl text-gray-500 font-bold">
+              Description:{" "}
+              <span className="text-black font-mono">{item.description}</span>
+            </p>
+          </div>
+        </section>
+      ))}
       {restaurant && (
         <div className="flex gap-3 justify-center p-5">
           <Button info onClick={modifyPost}>
@@ -128,10 +186,13 @@ const Post = ({ post, onDelete, restaurant, consumer }) => {
         </div>
       )}
       {consumer && (
-        <ButtonAnimatedGradient
-          onClick={deletePostConsumer}
-          content={"Remove"}
-        />
+        <div className="text-center">
+          <ButtonAnimatedGradient
+            onClick={deletePostConsumer}
+            content={"Remove"}
+            className="font-bold"
+          />
+        </div>
       )}
     </div>
   );

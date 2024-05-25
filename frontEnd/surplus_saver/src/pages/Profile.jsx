@@ -111,7 +111,7 @@ const Profile = () => {
 
   return (
     <div className="flex justify-center items-center h-screen gap-20">
-      {profilePic ? <div className="avatar ">{profilePic}</div> : "daa"}
+      {profilePic ? <div className="avatar ">{profilePic}</div> : ""}
       <div className="w-full max-w-md">
         <form
           onSubmit={handleSubmit(onSubmit)}

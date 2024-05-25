@@ -23,8 +23,12 @@ import AdminChoices from "./pages/AdminChoices";
 import AdminReports from "./pages/AdminReports";
 import NewAdmin from "./pages/NewAdmin";
 import InterestRequestsPage from "./pages/InterestRequestsPage";
-import InterestsFeedbacks from "./pages/InterestsFeedbacks";
+// import InterestsFeedbacks from "./pages/InterestsFeedbacks";
 import FeedbacksRestau from "./pages/FeedbacksRestau";
+import Interests from "./pages/interestsFeedbacks/Interests";
+import Accepted from "./pages/interestsFeedbacks/Accepted";
+import Pending from "./pages/interestsFeedbacks/Pending";
+import Refused from "./pages/interestsFeedbacks/Refused";
 
 import ProtectedRoute from "./protection/ProtectedRoute";
 import Profile from "./pages/Profile";
@@ -142,13 +146,48 @@ const App = () => {
             </ProtectedRoute>
           ),
         },
+        // {
+        //   path: "interests_feedbacks",
+        //   element: (
+        //     <ProtectedRoute tokenRef="token" accessRole="ROLE_CONSUMER">
+        //       <InterestsFeedbacks />
+        //     </ProtectedRoute>
+        //   ),
+        // },
         {
           path: "interests_feedbacks",
+          errorElement: <RootErrorPage />,
           element: (
             <ProtectedRoute tokenRef="token" accessRole="ROLE_CONSUMER">
-              <InterestsFeedbacks />
+              <Interests />
             </ProtectedRoute>
           ),
+          children: [
+            {
+              path: "accepted",
+              element: (
+                <ProtectedRoute tokenRef="token" accessRole="ROLE_CONSUMER">
+                  <Accepted />
+                </ProtectedRoute>
+              ),
+            },
+            {
+              path: "refused",
+              element: (
+                <ProtectedRoute tokenRef="token" accessRole="ROLE_CONSUMER">
+                  <Refused />{" "}
+                </ProtectedRoute>
+              ),
+            },
+            {
+              path: "pending",
+              element: (
+                <ProtectedRoute tokenRef="token" accessRole="ROLE_CONSUMER">
+                  <Pending />
+                </ProtectedRoute>
+              ),
+            },
+          ],
         },
       ],
     },

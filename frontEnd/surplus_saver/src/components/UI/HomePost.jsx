@@ -111,48 +111,67 @@ const HomePost = ({ post, consumer, restaurant }) => {
   };
 
   return (
-    <div className="border border-gray-300 p-6 my-6 rounded-md">
-      <div className="flex gap-5">
-        <div className="border border-gray-300 p-6 my-6 rounded-md">
+    <div className="border-4 border-[#8f96a2] p-6 my-6 rounded-lg">
+      <div className="flex gap-5 space-y-3">
+        <div className="border-4 border-[#8f96a2] p-3 my-3 rounded-md">
           {isLoading ? (
-            <LoadingImage className="size-60" />
+            <LoadingImage className="size-[18rem]" />
           ) : error ? (
-            <div className="size-60">Error: {error}</div>
+            <div className="size-[18rem]">Error: {error}</div>
           ) : (
-            <img className="size-60" src={imageURL} />
+            <img className="size-[18rem]" src={imageURL} />
           )}
         </div>
-        <div className="mt-5">
-          <h2 className="text-4xl font-bold text-green-500 mb-4">
-            Restaurant&apos;s Name : {post.restaurantName}
+        <div className="mt-5 flex flex-col gap-2">
+          <h2 className="text-4xl font-bold text-green-500 mb-10">
+            Restaurant&apos;s Name :{" "}
+            <span className="italic text-[#bec6d5] ">
+              {post.restaurantName}
+            </span>
           </h2>
           <h2 className="text-2xl font-bold text-green-500 mb-4">
-            Posted at : {post.postedAt}
+            Posted at : <span className="text-[#8f96a2]">{post.postedAt}</span>
           </h2>
           <h2 className="text-2xl font-bold text-green-500 mb-4">
-            Restaurant&apos;s Phone: {userPhone}
+            Restaurant&apos;s Phone:{" "}
+            <span className="text-[#8f96a2]">{userPhone}</span>
           </h2>
-          <p className=" mb-4">Post Description: {post.postDescription}</p>
+          <p className=" text-2xl font-bold text-green-500 mb-4">
+            Post Description:{" "}
+            <span className="text-[#8f96a2]">{post.postDescription}</span>
+          </p>
         </div>
       </div>
 
       {post.items.map((item, index) => (
         <section className="flex flex-col" key={item.id}>
           <div className="border border-gray-300 p-4 my-4 rounded-md bg-gray-50">
-            <h3 className="text-lg font-semibold text-gray-700 mb-2">
-              ITEM {index + 1}: {item.itemName}
+            <h3 className="text-3xl font-bold text-gray-600 mb-2">
+              ITEM {index + 1} :{" "}
+              <span className="underline-offset-4">
+                <span className="italic text-3xl font-extrabold">
+                  {item.itemName}
+                </span>
+              </span>
             </h3>
-            <p className="text-sm text-gray-500">Type: {item.itemType}</p>
-            <p className="text-sm text-gray-500">Quantity: {item.quantity}KG</p>
-            <p className="text-sm text-gray-500">
-              Description: {item.description}
+            <p className="text-2xl text-gray-500 font-bold">
+              Type:{" "}
+              <span className="text-black font-mono">{item.itemType}</span>
+            </p>
+            <p className="text-2xl text-gray-500 font-bold">
+              Quantity:{" "}
+              <span className="text-black font-mono">{item.quantity}KG</span>
+            </p>
+            <p className="text-2xl text-gray-500 font-bold">
+              Description:{" "}
+              <span className="text-black font-mono">{item.description}</span>
             </p>
           </div>
         </section>
       ))}
       <div className="flex justify-center">
         {consumer && (
-          <div className="flex justify-between">
+          <div className="flex justify-between border-4 border-[#8f96a2] p-5 rounded-lg">
             <div className="inline-block">
               <ButtonBackgroundShine
                 content="I am interested"

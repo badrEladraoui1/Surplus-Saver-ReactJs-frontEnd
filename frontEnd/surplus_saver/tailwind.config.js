@@ -16,6 +16,7 @@ export default {
         white: "#fffef8",
         blue: "#32d7f4",
         yellow: "#ffdd52",
+        silver: "#8f96a2",
         // Add more colors as needed
       },
       animation: {
@@ -25,6 +26,14 @@ export default {
         "background-shine": {
           "0%": { backgroundPosition: "0 0" },
           "100%": { backgroundPosition: "-200% 0" },
+        },
+        "background-shineH": {
+          from: {
+            backgroundPosition: "0 0",
+          },
+          to: {
+            backgroundPosition: "-200% 0",
+          },
         },
       },
     },

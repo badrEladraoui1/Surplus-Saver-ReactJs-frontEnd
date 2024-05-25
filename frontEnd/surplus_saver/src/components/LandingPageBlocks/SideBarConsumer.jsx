@@ -7,7 +7,9 @@ const SideBarConsumer = () => {
       <li className="space-y-5">
         <NavLink
           to="/consumer"
-          className={({ isActive }) => (isActive ? "text-pink" : undefined)}
+          className={({ isActive }) =>
+            isActive ? "text-silver font-bold" : "font-bold"
+          }
           end
         >
           Home Page
@@ -18,7 +20,9 @@ const SideBarConsumer = () => {
         {" "}
         <NavLink
           to="/consumer/savedPosts"
-          className={({ isActive }) => (isActive ? "text-green" : undefined)}
+          className={({ isActive }) =>
+            isActive ? "text-silver font-bold" : "font-bold"
+          }
         >
           Saved Posts
         </NavLink>
@@ -27,7 +31,9 @@ const SideBarConsumer = () => {
         {" "}
         <NavLink
           to="/consumer/interests_feedbacks"
-          className={({ isActive }) => (isActive ? "text-blue" : undefined)}
+          className={({ isActive }) =>
+            isActive ? "text-silver font-bold" : "font-bold"
+          }
         >
           Interests Feedbacks
         </NavLink>

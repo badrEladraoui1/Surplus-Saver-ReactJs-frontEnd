@@ -5,6 +5,7 @@ import axios from "axios";
 import Loading from "../components/UI/Loading";
 
 import Post from "../components/UI/Post";
+import TextShine from "../components/UI/TextShine";
 
 const ConsumerSavedPosts = () => {
   const [savedPosts, setSavedPosts] = useState([]);
@@ -40,7 +41,7 @@ const ConsumerSavedPosts = () => {
   };
 
   if (isLoading) {
-    return <Loading className="text-green" />;
+    return <Loading className="text-silver" />;
   }
 
   if (error) {
@@ -48,16 +49,20 @@ const ConsumerSavedPosts = () => {
   }
 
   return (
-    <div className="container mx-auto px-4">
-      <h1 className="text-green text-3xl font-bold mb-4 text-center">
+    <div className="flex flex-col justify-center items-center gap-10">
+      <TextShine
+        content="Saved Posts"
+        className="text-5xl font-bold text-center"
+      />
+      {/* <h1 className="text-green text-3xl font-bold mb-4 text-center">
         Saved Posts
-      </h1>
-      <p className="mb-8 text-center font-bold">
+      </h1> */}
+      {/* <p className="mb-8 text-center font-bold">
         {savedPosts.length > 0
           ? `Here are all the posts you've saved. You can view them at any time.`
           : `You haven't saved any posts yet. Save a post to view it here.`}
-      </p>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+      </p> */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-3">
         {savedPosts.map((post) => (
           <Post
             consumer={true}

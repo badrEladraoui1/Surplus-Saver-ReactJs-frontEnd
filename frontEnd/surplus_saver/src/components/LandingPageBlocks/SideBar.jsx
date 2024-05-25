@@ -7,7 +7,9 @@ const SideBar = () => {
       <li className="space-y-5">
         <NavLink
           to="/restaurant"
-          className={({ isActive }) => (isActive ? "text-pink" : undefined)}
+          className={({ isActive }) =>
+            isActive ? "text-pink font-bold" : "font-bold"
+          }
           end
         >
           Home Page
@@ -18,7 +20,9 @@ const SideBar = () => {
         {" "}
         <NavLink
           to="/restaurant/newPost"
-          className={({ isActive }) => (isActive ? "text-green" : undefined)}
+          className={({ isActive }) =>
+            isActive ? "text-green font-bold" : "font-bold"
+          }
         >
           New Post
         </NavLink>
@@ -27,7 +31,7 @@ const SideBar = () => {
         {" "}
         <NavLink
           to="/restaurant/modifyPost/:id"
-          className={({ isActive }) => (isActive ? "text-orange" : undefined)}
+          className={({ isActive }) => (isActive ? "text-orange font-bold" : "font-bold")}
         >
           Modify Post
         </NavLink>
@@ -36,7 +40,9 @@ const SideBar = () => {
         {" "}
         <NavLink
           to="/restaurant/myPosts"
-          className={({ isActive }) => (isActive ? "text-yellow" : undefined)}
+          className={({ isActive }) =>
+            isActive ? "text-yellow font-bold" : "font-bold"
+          }
         >
           My Posts
         </NavLink>
@@ -45,7 +51,9 @@ const SideBar = () => {
         {" "}
         <NavLink
           to="/restaurant/interest_requests"
-          className={({ isActive }) => (isActive ? "text-yellow" : undefined)}
+          className={({ isActive }) =>
+            isActive ? "text-yellow font-bold" : "font-bold"
+          }
         >
           Interest Requests
         </NavLink>
@@ -54,7 +62,9 @@ const SideBar = () => {
         {" "}
         <NavLink
           to="/restaurant/post_feedbacks"
-          className={({ isActive }) => (isActive ? "text-yellow" : undefined)}
+          className={({ isActive }) =>
+            isActive ? "text-yellow font-bold" : "font-bold"
+          }
         >
           Posts Feedbacks
         </NavLink>
