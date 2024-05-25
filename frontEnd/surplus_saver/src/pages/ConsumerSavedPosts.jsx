@@ -49,28 +49,24 @@ const ConsumerSavedPosts = () => {
   }
 
   return (
-    <div className="flex flex-col justify-center items-center gap-10">
+    <div className="flex flex-col justify-center items-center gap-3">
       <TextShine
         content="Saved Posts"
         className="text-5xl font-bold text-center"
       />
-      {/* <h1 className="text-green text-3xl font-bold mb-4 text-center">
-        Saved Posts
-      </h1> */}
-      {/* <p className="mb-8 text-center font-bold">
-        {savedPosts.length > 0
-          ? `Here are all the posts you've saved. You can view them at any time.`
-          : `You haven't saved any posts yet. Save a post to view it here.`}
-      </p> */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-3">
-        {savedPosts.map((post) => (
-          <Post
-            consumer={true}
-            key={post.id}
-            post={post}
-            onDelete={handleDelete}
-          />
-        ))}
+      <div className="flex flex-col justify-center items-center">
+        {savedPosts.length > 0 ? (
+          savedPosts.map((post) => (
+            <Post
+              consumer={true}
+              key={post.id}
+              post={post}
+              onDelete={handleDelete}
+            />
+          ))
+        ) : (
+          <p className="font-bold text-2xl">No Saved Posts yet ...</p>
+        )}
       </div>
     </div>
   );

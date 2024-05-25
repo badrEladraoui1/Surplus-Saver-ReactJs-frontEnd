@@ -10,6 +10,9 @@ import { UserContext } from "../../contexts/UserContext";
 import ButtonRotatingBackgroundGradient from "./ButtonRotatingBackgroundGradient";
 import ButtonAnimatedGradient from "./ButtonAnimatedGradient";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBowlFood } from "@fortawesome/free-solid-svg-icons";
+
 const Post = ({ post, onDelete, restaurant, consumer }) => {
   console.log(post);
   const { userPhone } = useContext(UserContext);
@@ -86,7 +89,7 @@ const Post = ({ post, onDelete, restaurant, consumer }) => {
   };
 
   return (
-    <div className="mb-6 border-4 border-silver shadow p-7 rounded-lg">
+    <div className="mb-6 border-4 border-silver shadow p-7 rounded-lg w-[60rem]">
       {errorMessage && (
         <div role="alert" className="alert alert-error">
           <svg
@@ -151,38 +154,51 @@ const Post = ({ post, onDelete, restaurant, consumer }) => {
 
       {post.items.map((item, index) => (
         <section className="flex flex-col" key={item.id}>
-          <div className="border border-gray-300 p-4 my-4 rounded-md bg-gray-50">
-            <h3 className="text-3xl font-bold text-gray-600 mb-2">
-              ITEM {index + 1} :{" "}
-              <span className="underline-offset-4">
-                <span className="italic text-3xl font-extrabold">
-                  {item.itemName}
-                </span>
+          <div className="border border-gray-300 p-4 my-4 rounded-md bg-gray-50 bg-opacity-90">
+            <div className="flex gap-3 text-3xl font-bold text-gray-600 mb-2">
+              <FontAwesomeIcon icon={faBowlFood} className="size-10" />
+              <span className="italic text-3xl font-extrabold">
+                {item.itemName}
               </span>
-            </h3>
+            </div>
             <p className="text-2xl text-gray-500 font-bold">
               Type:{" "}
-              <span className="text-black font-mono">{item.itemType}</span>
+              <span className="text-[#463f3a] font-mono">{item.itemType}</span>
             </p>
             <p className="text-2xl text-gray-500 font-bold">
               Quantity:{" "}
-              <span className="text-black font-mono">{item.quantity}KG</span>
+              <span className="text-[#463f3a] font-mono">
+                {item.quantity}KG
+              </span>
             </p>
             <p className="text-2xl text-gray-500 font-bold">
               Description:{" "}
-              <span className="text-black font-mono">{item.description}</span>
+              <span className="text-[#463f3a] font-mono">
+                {item.description}
+              </span>
             </p>
           </div>
         </section>
       ))}
       {restaurant && (
         <div className="flex gap-3 justify-center p-5">
-          <Button info onClick={modifyPost}>
-            Modify
-          </Button>
-          <Button warning onClick={deletePostResto}>
+          <Button ghost onClick={deletePostResto} className="font-bold">
             Delete
           </Button>
+          <Button
+            ghost
+            onClick={modifyPost}
+            className="bg-silver text-black font-bold"
+          >
+            Modify
+          </Button>
+          {/* <Button
+            neutral
+            type="submit"
+            className="bg-silver text-black font-bold"
+          >
+            Submit
+          </Button> */}
         </div>
       )}
       {consumer && (

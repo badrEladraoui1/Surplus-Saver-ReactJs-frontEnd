@@ -17,6 +17,7 @@ export default {
         blue: "#32d7f4",
         yellow: "#ffdd52",
         silver: "#8f96a2",
+        apbg: "#171212",
         // Add more colors as needed
       },
       animation: {

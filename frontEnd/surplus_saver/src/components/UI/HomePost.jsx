@@ -7,6 +7,9 @@ import axios from "axios";
 import { useState } from "react";
 import useProfilePic from "../../hooks/useProfilePic";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBowlFood } from "@fortawesome/free-solid-svg-icons";
+
 import LoadingImage from "../UI/LoadingImage";
 import InterestedPostModal from "../UI/InterestedPostModal";
 
@@ -145,26 +148,28 @@ const HomePost = ({ post, consumer, restaurant }) => {
 
       {post.items.map((item, index) => (
         <section className="flex flex-col" key={item.id}>
-          <div className="border border-gray-300 p-4 my-4 rounded-md bg-gray-50">
-            <h3 className="text-3xl font-bold text-gray-600 mb-2">
-              ITEM {index + 1} :{" "}
-              <span className="underline-offset-4">
-                <span className="italic text-3xl font-extrabold">
-                  {item.itemName}
-                </span>
+          <div className="border border-gray-300 p-4 my-4 rounded-md bg-gray-50 bg-opacity-90">
+            <div className="flex gap-3 text-3xl font-bold text-gray-600 mb-2">
+              <FontAwesomeIcon icon={faBowlFood} className="size-10" />
+              <span className="italic text-3xl font-extrabold">
+                {item.itemName}
               </span>
-            </h3>
+            </div>
             <p className="text-2xl text-gray-500 font-bold">
               Type:{" "}
-              <span className="text-black font-mono">{item.itemType}</span>
+              <span className="text-[#463f3a] font-mono">{item.itemType}</span>
             </p>
             <p className="text-2xl text-gray-500 font-bold">
               Quantity:{" "}
-              <span className="text-black font-mono">{item.quantity}KG</span>
+              <span className="text-[#463f3a] font-mono">
+                {item.quantity}KG
+              </span>
             </p>
             <p className="text-2xl text-gray-500 font-bold">
               Description:{" "}
-              <span className="text-black font-mono">{item.description}</span>
+              <span className="text-[#463f3a] font-mono">
+                {item.description}
+              </span>
             </p>
           </div>
         </section>

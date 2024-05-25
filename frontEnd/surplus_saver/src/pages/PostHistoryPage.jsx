@@ -4,6 +4,7 @@ import axios from "axios";
 import { api } from "../Utils/backendApi";
 import Post from "../components/UI/Post";
 import Loading from "../components/UI/Loading";
+import TextShine from "../components/UI/TextShine";
 
 const PostHistoryPage = () => {
   const [posts, setPosts] = useState([]);
@@ -40,14 +41,11 @@ const PostHistoryPage = () => {
   }
 
   return (
-    <div className="p-6">
-      <h1 className="text-3xl font-bold mb-4 text-yellow text-center">
-        PostHistoryPage
-      </h1>
-      <p className="mb-4">
-        This page displays all your posts. You can modify or delete each post
-        using the buttons provided.
-      </p>
+    <div className="p-6 flex flex-col justify-center items-center gap-5">
+      <TextShine
+        content="Post History"
+        className="text-5xl font-bold text-center"
+      />
       {posts.length > 0 ? (
         posts.map((post) => (
           <Post

@@ -37,7 +37,7 @@ const Button = ({
   else if (outline_warning) classes += "btn-outline btn-warning";
 
   return (
-    <button {...props} className={`${classes} ${className}`}>
+    <button {...props} className={`${className} ${classes}`}>
       {children}
     </button>
   );

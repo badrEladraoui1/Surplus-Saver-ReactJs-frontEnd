@@ -7,7 +7,7 @@ const useProfilePic = () => {
   const { loadingImage, imageError, userProfilePic } = useContext(UserContext);
 
   return (
-    <div className=" border-2 border-white p-5 rounded-md flex flex-col justify-center items-center text-center w-80">
+    <div className=" border-4 border-silver p-5 rounded-md flex flex-col justify-center items-center text-center w-80">
       {userProfilePic ? (
         <img className="size-[30rem]" src={userProfilePic} alt="User image" />
       ) : loadingImage ? (

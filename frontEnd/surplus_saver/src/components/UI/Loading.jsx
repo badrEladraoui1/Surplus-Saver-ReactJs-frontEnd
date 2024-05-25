@@ -4,7 +4,7 @@ const Loading = ({ className }) => {
     <section className="flex gap-3">
       <h1
         className={` text-3xl font-bold mb-4 text-center ${
-          className ? className : "text-yellow"
+          className ? className : "text-silver"
         }`}
       >
         Loading{" "}

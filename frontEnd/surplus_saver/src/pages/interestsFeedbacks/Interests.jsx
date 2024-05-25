@@ -7,11 +7,8 @@ import { Outlet } from "react-router-dom";
 
 const Interests = () => {
   const [isAcceptedActive, setIsAcceptedActive] = useState(false);
-  console.log(isAcceptedActive);
   const [isPendingActive, setIsPendingActive] = useState(false);
-  console.log(isPendingActive);
   const [isRefusedActive, setIsRefusedActive] = useState(false);
-  console.log(isRefusedActive);
 
   return (
     <div className="flex flex-col justify-center items-center gap-10">

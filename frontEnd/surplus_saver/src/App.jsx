@@ -33,6 +33,8 @@ import Refused from "./pages/interestsFeedbacks/Refused";
 import ProtectedRoute from "./protection/ProtectedRoute";
 import Profile from "./pages/Profile";
 
+import AnyInterest from "./components/UI/AnyInterest";
+
 const App = () => {
   const router = createBrowserRouter([
     {
@@ -167,7 +169,10 @@ const App = () => {
               path: "accepted",
               element: (
                 <ProtectedRoute tokenRef="token" accessRole="ROLE_CONSUMER">
-                  <Accepted />
+                  <AnyInterest
+                    endpoint="/SurplusSaverApiV1/interests/user/consumer/accepted"
+                    type="accepted"
+                  />
                 </ProtectedRoute>
               ),
             },
@@ -175,7 +180,10 @@ const App = () => {
               path: "refused",
               element: (
                 <ProtectedRoute tokenRef="token" accessRole="ROLE_CONSUMER">
-                  <Refused />{" "}
+                  <AnyInterest
+                    endpoint="/SurplusSaverApiV1/interests/user/consumer/refused"
+                    type="refused"
+                  />
                 </ProtectedRoute>
               ),
             },
@@ -183,7 +191,10 @@ const App = () => {
               path: "pending",
               element: (
                 <ProtectedRoute tokenRef="token" accessRole="ROLE_CONSUMER">
-                  <Pending />
+                  <AnyInterest
+                    endpoint="/SurplusSaverApiV1/interests/user/consumer/pending"
+                    type="pending"
+                  />
                 </ProtectedRoute>
               ),
             },

@@ -9,6 +9,8 @@ import { UserContext } from "../contexts/UserContext";
 import { useContext } from "react";
 import LoadingImage from "../components/UI/LoadingImage";
 
+import TextShine from "../components/UI/TextShine";
+
 import Toast from "../components/UI/Toast";
 
 const Profile = () => {
@@ -111,14 +113,18 @@ const Profile = () => {
 
   return (
     <div className="flex justify-center items-center h-screen gap-20">
-      {profilePic ? <div className="avatar ">{profilePic}</div> : ""}
+      {profilePic ? <div className="avatar">{profilePic}</div> : ""}
       <div className="w-full max-w-md">
         <form
           onSubmit={handleSubmit(onSubmit)}
           className=" shadow-md rounded px-8 pt-6 pb-8 mb-4"
         >
           <div className="mb-4">
-            <h2 className="text-center font-bold text-xl">User Profile</h2>
+            {/* <h2 className="text-center font-bold text-xl">User Profile</h2> */}
+            <TextShine
+              content="User Profile"
+              className="text-5xl font-bold text-center"
+            />
           </div>
           <div className="mb-4">
             <input

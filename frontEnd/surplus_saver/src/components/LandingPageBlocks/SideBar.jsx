@@ -8,7 +8,7 @@ const SideBar = () => {
         <NavLink
           to="/restaurant"
           className={({ isActive }) =>
-            isActive ? "text-pink font-bold" : "font-bold"
+            isActive ? "text-silver font-bold" : "font-bold"
           }
           end
         >
@@ -21,7 +21,7 @@ const SideBar = () => {
         <NavLink
           to="/restaurant/newPost"
           className={({ isActive }) =>
-            isActive ? "text-green font-bold" : "font-bold"
+            isActive ? "text-silver font-bold" : "font-bold"
           }
         >
           New Post
@@ -41,7 +41,7 @@ const SideBar = () => {
         <NavLink
           to="/restaurant/myPosts"
           className={({ isActive }) =>
-            isActive ? "text-yellow font-bold" : "font-bold"
+            isActive ? "text-silver font-bold" : "font-bold"
           }
         >
           My Posts
@@ -52,7 +52,7 @@ const SideBar = () => {
         <NavLink
           to="/restaurant/interest_requests"
           className={({ isActive }) =>
-            isActive ? "text-yellow font-bold" : "font-bold"
+            isActive ? "text-silver font-bold" : "font-bold"
           }
         >
           Interest Requests
@@ -63,7 +63,7 @@ const SideBar = () => {
         <NavLink
           to="/restaurant/post_feedbacks"
           className={({ isActive }) =>
-            isActive ? "text-yellow font-bold" : "font-bold"
+            isActive ? "text-silver font-bold" : "font-bold"
           }
         >
           Posts Feedbacks
