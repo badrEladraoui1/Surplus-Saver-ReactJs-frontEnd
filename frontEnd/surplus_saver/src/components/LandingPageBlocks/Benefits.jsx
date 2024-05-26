@@ -44,7 +44,7 @@ const Benefits = () => {
             <h3 className={`${headings}`}>Collectify</h3>
           </div>
           <div
-            className={`bg-white ${toFlex} row-span-1 md:row-span-2 col-span-1 md:col-span-2 rounded-lg`}
+            className={`bg-[#8d5cff] ${toFlex} row-span-1 md:row-span-2 col-span-1 md:col-span-2 rounded-lg`}
           >
             <img src={iconEasyToUse} className="size-10" />
             <h3 className={`${headings}`}>Easy-to-Use Platform</h3>

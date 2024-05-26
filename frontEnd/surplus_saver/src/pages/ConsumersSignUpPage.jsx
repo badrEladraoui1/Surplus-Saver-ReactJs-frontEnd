@@ -172,7 +172,7 @@ const ConsumersSignUpPage = () => {
         <span className="text-red-500">This field is required</span>
       )}
 
-      <input type="submit" value="Sign Up" className="btn btn-primary" />
+      <input type="submit" value="Sign Up" className="btn btn-neutral" />
 
       {successMessage && (
         <div role="alert" className="alert">

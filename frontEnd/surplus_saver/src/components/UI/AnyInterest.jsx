@@ -5,6 +5,7 @@ import { api } from "../../Utils/backendApi";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBowlFood } from "@fortawesome/free-solid-svg-icons";
 import TextShine from "../../components/UI/TextShine";
+import EmptyAnim from "../../components/UI/EmptyAnim";
 
 const AnyInterest = ({ endpoint, type }) => {
   const [interests, setInterests] = useState([]);
@@ -44,7 +45,9 @@ const AnyInterest = ({ endpoint, type }) => {
                 </span>{" "}
                 has{" "}
                 <span className="inline-flex animate-text-gradient bg-gradient-to-r from-[#b2a8fd] via-[#8678f9] to-[#c7d2fe] bg-[200%_auto] bg-clip-text text-xl text-transparent">
-                  {type}
+                  {type === "accepted" && type}
+                  {type === "refused" && type}
+                  {type === "pending" && "marked your request as pending"}
                 </span>{" "}
                 your request for the post that contains these items:
               </h2>
@@ -99,9 +102,13 @@ const AnyInterest = ({ endpoint, type }) => {
           </div>
         ))
       ) : (
-        <p className="text-2xl font-bold text-center">
-          No {type} feedbacks yet ...
-        </p>
+        // <p className="text-2xl font-bold text-center">
+        //   No {type} feedbacks yet ...
+        // </p>
+        <div>
+          <p className="font-bold text-2xl">No {type} feedbacks yet ...</p>
+          <EmptyAnim />
+        </div>
       )}
     </div>
   );

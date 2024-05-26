@@ -1,320 +1,223 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-import { useForm, useFieldArray, useWatch } from "react-hook-form";
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
+import { useForm, useFieldArray } from "react-hook-form";
 import { useParams } from "react-router-dom";
-
-import { api } from "../Utils/backendApi";
-
-import Button from "../components/UI/Button";
 import axios from "axios";
+import Button from "../components/UI/Button";
+import Toast from "../components/UI/Toast";
+import { api } from "../Utils/backendApi";
+import TextShine from "../components/UI/TextShine";
 
 const ModifyPostPage = () => {
-  const [postData, setPostData] = useState(null);
-
+  const [postDetails, setPostDetails] = useState(null);
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-
   const [itemImages, setItemImages] = useState([]);
-  console.log(itemImages);
+  const [toastMessage, setToastMessage] = useState("");
+  const [toastType, setToastType] = useState(null);
 
-  const { register, control, handleSubmit, reset, setValue } = useForm();
-  const { fields, append, remove } = useFieldArray({
+  const {
+    register,
     control,
-    name: "items",
-    // defaultValue: [
-    //   { itemName: "", itemType: "", quantity: "", description: "" },
-    //   { itemName: "", itemType: "", quantity: "", description: "" },
-    //   { itemName: "", itemType: "", quantity: "", description: "" },
-    // ], // initialize with three empty objects
-  });
+    handleSubmit,
+    reset,
+    setValue,
+    formState: { errors },
+  } = useForm();
+  const { fields, append, remove } = useFieldArray({ control, name: "items" });
 
   const { id } = useParams();
-  console.log(id);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchPostData = async () => {
       try {
         const response = await axios.get(
           `${api}/SurplusSaverApiV1/posts/getPostById/${id}`,
           {
-            headers: {
-              Authorization: localStorage.getItem("token"),
-            },
+            headers: { Authorization: localStorage.getItem("token") },
           }
         );
-        const data = response.data;
-        setPostData(data);
-        Object.keys(data).forEach((key) => {
+        const postData = response.data;
+        setPostDetails(postData);
+
+        Object.keys(postData).forEach((key) => {
           if (key !== "items") {
-            setValue(key, data[key]);
+            setValue(key, postData[key]);
           }
         });
-        if (data.items) {
-          setValue("items", data.items);
-
-          // Fetch the images for each item
-          const images = await Promise.all(
-            data.items.map((item) =>
-              axios.get(`${api}/SurplusSaverApiV1/items/${item.id}`, {
-                headers: {
-                  Authorization: localStorage.getItem("token"),
-                },
-              })
-            )
-          );
-          setItemImages(images.map((response) => response.data));
+        if (postData.items) {
+          setValue("items", postData.items);
         }
+
+        const images = await Promise.all(
+          postData.items.map((item) =>
+            axios.get(`${api}/SurplusSaverApiV1/items/${item.id}`, {
+              headers: { Authorization: localStorage.getItem("token") },
+            })
+          )
+        );
+        setItemImages(images.map((response) => response.data));
       } catch (error) {
         console.error(error);
+        setErrorMessage("An error occurred while fetching the post data");
       }
     };
-    fetchData();
+    fetchPostData();
   }, [id, setValue]);
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await axios.get(
-  //         `${api}/SurplusSaverApiV1/posts/getPostById/${id}`,
-  //         {
-  //           headers: {
-  //             Authorization: localStorage.getItem("token"),
-  //           },
-  //         }
-  //       );
-  //       const data = response.data;
-  //       console.log(data);
-  //       setPostData(data);
-  //       Object.keys(data).forEach((key) => {
-  //         if (key !== "items") {
-  //           setValue(key, data[key]);
-  //         }
-  //       });
-  //       if (data.items) {
-  //         setValue("items", data.items);
-  //       }
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   };
-  //   fetchData();
-  // }, [id, setValue]);
 
-  // const onSubmit = async (data) => {
-  //   try {
-  //     console.log(data);
-  //     const updatedPost = {
-  //       id: id,
-  //       restaurantName: data.restaurantName,
-  //       postDescription: data.postDescription,
-  //       items: data.items.map((item, index) => ({
-  //         id: fields[index].id, // Assuming the original item id is stored in fields
-  //         ...item,
-  //       })),
-  //     };
-  //     await axios.put(
-  //       `${api}/SurplusSaverApiV1/posts/modifyPost/${id}`,
-  //       updatedPost,
-  //       {
-  //         headers: {
-  //           Authorization: localStorage.getItem("token"),
-  //         },
-  //       }
-  //     );
-  //     reset();
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
-
-  const onSubmit = async (data) => {
+  const onSubmit = async (formData) => {
     try {
-      // Convert the postedAt string to a Date object
-      const postedAtDate = new Date(data.postedAt);
-
-      // Format the Date object as a string in the correct format
+      const postedAtDate = new Date(formData.postedAt);
       const postedAtString = postedAtDate.toISOString();
+      formData.postedAt = postedAtString;
 
-      // Replace the postedAt field in the data object with the correctly formatted string
-      data.postedAt = postedAtString;
-
-      // Make a copy of the items array
-      const items = [...data.items];
-
-      // Remove the image files from the items in the data object
-      data.items = data.items.map((item) => {
+      const itemsCopy = [...formData.items];
+      formData.items = formData.items.map((item) => {
         const { image, ...itemWithoutImage } = item;
         return itemWithoutImage;
       });
 
-      // Modify the post
       const response = await axios.put(
         `${api}/SurplusSaverApiV1/posts/modifyPost/${id}`,
-        data,
+        formData,
         {
-          headers: {
-            Authorization: localStorage.getItem("token"),
-          },
+          headers: { Authorization: localStorage.getItem("token") },
         }
       );
-
-      setSuccessMessage(response.data); // assuming the response contains a message field
-      setErrorMessage("");
+      setSuccessMessage(response.data);
+      setToastType("success");
+      setToastMessage(response.data);
       reset();
-
-      // Clear messages after 3 seconds
       setTimeout(() => {
-        setSuccessMessage("");
-        setErrorMessage("");
+        setToastMessage("");
+        setToastType(null);
       }, 3000);
     } catch (error) {
       console.error(error);
-      setErrorMessage("An error occurred while modifying the post.");
-      setSuccessMessage("");
-
-      // Clear messages after 3 seconds
+      setToastType("error");
+      setToastMessage("An error occurred while sending the request");
       setTimeout(() => {
-        setSuccessMessage("");
-        setErrorMessage("");
+        setToastMessage("");
+        setToastType(null);
       }, 3000);
     }
   };
-  // const onSubmit = async (data) => {
-  //   try {
-  //     // Convert the postedAt string to a Date object
-  //     const postedAtDate = new Date(data.postedAt);
-
-  //     // Format the Date object as a string in the correct format
-  //     const postedAtString = postedAtDate.toISOString();
-
-  //     // Replace the postedAt field in the data object with the correctly formatted string
-  //     data.postedAt = postedAtString;
-
-  //     console.log(data);
-  //     const response = await axios.put(
-  //       `${api}/SurplusSaverApiV1/posts/modifyPost/${id}`,
-  //       data,
-  //       {
-  //         headers: {
-  //           Authorization: localStorage.getItem("token"),
-  //         },
-  //       }
-  //     );
-  //     setSuccessMessage(response.data); // assuming the response contains a message field
-  //     setErrorMessage("");
-  //     reset();
-
-  //     // Clear the success message after 3 seconds
-  //     setTimeout(() => {
-  //       setSuccessMessage("");
-  //     }, 3000);
-  //   } catch (error) {
-  //     console.error(error);
-  //     setErrorMessage("An error occurred while modifying the post.");
-  //     setSuccessMessage("");
-  //   }
-  //   console.log("submitted : ", data);
-  // };
 
   return (
     <section className="flex flex-col justify-center items-center text-center gap-10">
       <div>
-        <h1 className="text-3xl font-bold mb-4 text-orange">
-          Modify Post Form
+        <h1 className="text-4xl font-bold mb-4">
+          <div className="flex flex-col gap-2">
+            <TextShine
+              content="Modify Post Form"
+              className="text-5xl font-bold text-center"
+            />
+          </div>
         </h1>
-
-        <p className="mb-4">
-          This form allows you to modify an existing post. After submitting, the
-          form will be reset.
-        </p>
       </div>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-        <h1 className="text-2xl font-bold text-orange">Modify Post</h1>
-        {errorMessage && (
-          <div role="alert" className="alert alert-error">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="stroke-current shrink-0 h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-              />
-            </svg>
-            <span>{errorMessage}</span>
-          </div>
-        )}
-        {successMessage && (
-          <div role="alert" className="alert alert-success">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="stroke-current shrink-0 h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-              />
-            </svg>
-            <span>{successMessage}</span>
-          </div>
-        )}
-        <div className="space-y-3">
-          <label className="block font-medium text-xl">Restaurant Name:</label>
+        <Toast
+          success={toastType === "success"}
+          error={toastType === "error"}
+          content={toastMessage}
+        />
+        <div className="flex flex-col justify-center items-center gap-2 mb-10">
+          <label className="text-2xl font-bold">Restaurant Name:</label>
           <input
             {...register("restaurantName")}
-            className="input input-bordered w-full max-w-xs"
+            className="input input-bordered max-w-xs"
             disabled
           />
         </div>
-        <div className="space-y-3">
-          <label className="block  font-medium text-xl">
-            Post Description:
-          </label>
+        <div className="flex flex-col justify-center items-center gap-2">
+          <label className="text-2xl font-bold">Post Description:</label>
           <textarea
-            {...register("postDescription")}
-            className="textarea textarea-bordered"
+            {...register("postDescription", {
+              required: true,
+            })}
+            placeholder="Post Description"
+            className="textarea textarea-bordered max-w-xs"
           />
+          {errors.postDescription &&
+            errors.postDescription.type === "required" && (
+              <span className="text-red-500">This field is required</span>
+            )}
         </div>
-        <div className="flex space-x-4  ">
+        <div className="flex space-x-4 ">
           {fields.map((item, index) => (
             <div key={item.id} className="space-y-2 flex flex-col">
               <input
-                {...register(`items.${index}.itemName`)}
+                {...register(`items.${index}.itemName`, {
+                  required: true,
+                })}
                 placeholder="Enter Item Name"
                 className="input input-bordered w-full max-w-xs"
               />
+              {errors.items &&
+                errors.items[index] &&
+                errors.items[index].itemName && (
+                  <span className="text-red-500">This field is required</span>
+                )}
               <input
-                {...register(`items.${index}.itemType`)}
+                {...register(`items.${index}.itemType`, {
+                  required: true,
+                })}
                 placeholder="Enter Item Type"
                 className="input input-bordered w-full max-w-xs"
               />
+              {errors.items &&
+                errors.items[index] &&
+                errors.items[index].itemType && (
+                  <span className="text-red-500">This field is required</span>
+                )}
               <input
-                {...register(`items.${index}.quantity`)}
-                placeholder="Enter Quantity"
+                {...register(`items.${index}.quantity`, {
+                  required: true,
+                  pattern: {
+                    value: /^[0-9]*$/,
+                    message: "Only numbers are allowed",
+                  },
+                })}
+                placeholder="Enter Quantity (Kg)"
                 className="input input-bordered w-full max-w-xs"
               />
+              {errors.items &&
+                errors.items[index] &&
+                errors.items[index].quantity &&
+                errors.items[index].quantity.type === "required" && (
+                  <span className="text-red-500">This field is required</span>
+                )}
+              {errors.items &&
+                errors.items[index] &&
+                errors.items[index].quantity &&
+                errors.items[index].quantity.type === "pattern" && (
+                  <span className="text-red-500">Only numbers are allowed</span>
+                )}
               <textarea
-                {...register(`items.${index}.description`)}
-                placeholder="Enter Description"
-                className="textarea textarea-bordered"
-              />
-              <Button outline_error type="button" onClick={() => remove(index)}>
-                Remove
-              </Button>
+                {...register(`items.${index}.description`, {
+                  required: true,
+                })}
+                placeholder="Item Description"
+                className="textarea textarea-bordered max-w-xs"
+              />{" "}
+              {errors.items &&
+                errors.items[index] &&
+                errors.items[index].description && (
+                  <span className="text-red-500">This field is required</span>
+                )}
+              <div>
+                <Button ghost type="button" onClick={() => remove(index)}>
+                  Remove
+                </Button>
+              </div>
             </div>
           ))}
         </div>
-        <div className="space-x-10 space-y-10">
+        <div className="space-x-10 space-y-5">
           <Button
-            outline_default
+            ghost
+            className="bg-white text-black font-bold"
             type="button"
             onClick={() =>
               append({
@@ -328,7 +231,11 @@ const ModifyPostPage = () => {
           >
             Add
           </Button>
-          <Button outline_primary type="submit">
+          <Button
+            neutral
+            type="submit"
+            className="bg-silver text-black font-bold"
+          >
             Submit
           </Button>
         </div>

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import axios from "axios";
 import { api } from "../Utils/backendApi";
 import Button from "../components/UI/Button";
@@ -7,10 +7,14 @@ import Toast from "../components/UI/Toast";
 import TextShine from "../components/UI/TextShine";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBowlFood } from "@fortawesome/free-solid-svg-icons";
+import EmptyAnim from "../components/UI/EmptyAnim";
+
 // import BetterDropDownMenu from "../components/UI/BetterDropDownMenu";
 const InterestRequestsPage = () => {
   const [interests, setInterests] = useState([]);
   const [toast, setToast] = useState(null); // Add a new state for the toast
+
+  const memoizedInterests = useMemo(() => interests, [interests]);
 
   useEffect(() => {
     const fetchInterests = async () => {
@@ -45,6 +49,124 @@ const InterestRequestsPage = () => {
     }
   }, [toast]);
 
+  // const acceptInterest = async (interestId) => {
+  //   try {
+  //     const response = await axios.post(
+  //       `${api}/SurplusSaverApiV1/interests/${interestId}/accept`,
+  //       {},
+  //       {
+  //         headers: {
+  //           Authorization: localStorage.getItem("token"),
+  //         },
+  //       }
+  //     );
+
+  //     if (response.status === 200) {
+  //       setToast({ type: "success", message: response.data });
+  //     } else if (response.status === 103) {
+  //       console.log(response.data);
+  //       setToast({ type: "info", message: response.data });
+  //     }
+  //   } catch (error) {
+  //     console.error("Failed to accept interest", error);
+  //     setToast({
+  //       type: "info",
+  //       message:
+  //         "Failed to accept interest or Interest has already been accepted or cancelled.",
+  //     });
+  //   }
+  // };
+
+  // const cancelInterest = async (interestId) => {
+  //   try {
+  //     const response = await axios.post(
+  //       `${api}/SurplusSaverApiV1/interests/${interestId}/cancel`,
+  //       {},
+  //       {
+  //         headers: {
+  //           Authorization: localStorage.getItem("token"),
+  //         },
+  //       }
+  //     );
+
+  //     if (response.status === 200) {
+  //       setToast({ type: "success", message: response.data });
+  //     } else if (response.status === 103) {
+  //       setToast({ type: "info", message: response.data });
+  //       console.log(response.data);
+  //     }
+  //   } catch (error) {
+  //     console.error("Failed to cancel interest", error);
+  //     setToast({
+  //       type: "info",
+  //       message:
+  //         "Failed to cancel interest or Interest has already been accepted or cancelled.",
+  //     });
+  //   }
+  // };
+
+  // const acceptInterest = async (interestId) => {
+  //   try {
+  //     const response = await axios.post(
+  //       `${api}/SurplusSaverApiV1/interests/${interestId}/accept`,
+  //       {},
+  //       {
+  //         headers: {
+  //           Authorization: localStorage.getItem("token"),
+  //         },
+  //       }
+  //     );
+
+  //     if (response.status === 200) {
+  //       setToast({ type: "success", message: response.data });
+  //       setInterests(
+  //         interests.filter((interest) => interest.interestId !== interestId)
+  //       );
+  //     } else if (response.status === 103) {
+  //       console.log(response.data);
+  //       setToast({ type: "info", message: response.data });
+  //     }
+  //   } catch (error) {
+  //     console.error("Failed to accept interest", error);
+  //     setToast({
+  //       type: "info",
+  //       message:
+  //         "Failed to accept interest or Interest has already been accepted or cancelled.",
+  //     });
+  //   }
+  // };
+
+  // const cancelInterest = async (interestId) => {
+  //   try {
+  //     const response = await axios.post(
+  //       `${api}/SurplusSaverApiV1/interests/${interestId}/cancel`,
+  //       {},
+  //       {
+  //         headers: {
+  //           Authorization: localStorage.getItem("token"),
+  //         },
+  //       }
+  //     );
+
+  //     if (response.status === 200) {
+  //       setToast({ type: "success", message: response.data });
+  //       setInterests(
+  //         interests.filter((interest) => interest.interestId !== interestId)
+  //       );
+  //     } else if (response.status === 103) {
+  //       setToast({ type: "info", message: response.data });
+  //       console.log(response.data);
+  //     }
+  //   } catch (error) {
+  //     console.error("Failed to cancel interest", error);
+  //     setToast({
+  //       type: "info",
+  //       message:
+  //         "Failed to cancel interest or Interest has already been accepted or cancelled.",
+  //     });
+  //   }
+  // };
+
   const acceptInterest = async (interestId) => {
     try {
       const response = await axios.post(
@@ -59,6 +181,11 @@ const InterestRequestsPage = () => {
 
       if (response.status === 200) {
         setToast({ type: "success", message: response.data });
+        setTimeout(() => {
+          setInterests(
+            interests.filter((interest) => interest.interestId !== interestId)
+          );
+        }, 2000);
       } else if (response.status === 103) {
         console.log(response.data);
         setToast({ type: "info", message: response.data });
@@ -87,6 +214,11 @@ const InterestRequestsPage = () => {
 
       if (response.status === 200) {
         setToast({ type: "success", message: response.data });
+        setTimeout(() => {
+          setInterests(
+            interests.filter((interest) => interest.interestId !== interestId)
+          );
+        }, 2000);
       } else if (response.status === 103) {
         setToast({ type: "info", message: response.data });
         console.log(response.data);
@@ -122,11 +254,16 @@ const InterestRequestsPage = () => {
           <span className="text-red-500">deny</span> these requests.
         </p> */}
         <p className="font-bold text-2xl">
-          {interests.length === 0 && "No requests to show :("}
+          {interests.length === 0 && (
+            <div>
+              <p>No requests to show :(</p>
+              <EmptyAnim />
+            </div>
+          )}
         </p>
       </div>
 
-      {interests.map((interest, index) =>
+      {memoizedInterests.map((interest, index) =>
         interest.users.map((user, userIndex) => (
           <div
             key={`${index}-${userIndex}`}
@@ -181,16 +318,11 @@ const InterestRequestsPage = () => {
               ))}
             </ul>
             <div className="flex gap-5 justify-center m-5">
-              {/* <Button
-                accent
-                onClick={() => acceptInterest(interest.interestId)}
-              >
-                Accept
-              </Button> */}
               <Button
                 ghost
                 type="submit"
                 className="bg-silver text-black font-bold"
+                onClick={() => acceptInterest(interest.interestId)}
               >
                 Accept
               </Button>

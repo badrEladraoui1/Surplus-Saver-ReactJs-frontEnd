@@ -24,7 +24,7 @@ const LastCallToAction = () => {
           </Link>
 
           <Button
-            secondary
+            accent
             className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-full transition duration-300 ease-in-out"
           >
             Spread the Word

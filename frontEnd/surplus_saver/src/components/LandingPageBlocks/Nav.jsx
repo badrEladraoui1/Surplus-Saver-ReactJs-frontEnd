@@ -1,4 +1,5 @@
 import { NavLink } from "react-router-dom";
+import ThemeToggler from "../UI/ThemeToggler";
 
 const NavLinks = () => {
   return (
@@ -27,6 +28,7 @@ const NavLinks = () => {
       >
         About
       </NavLink>
+      <ThemeToggler />
     </>
   );
 };

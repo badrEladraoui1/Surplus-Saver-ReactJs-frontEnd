@@ -168,7 +168,7 @@ const SignInPage = () => {
           <span className="text-red-500">Password is required</span>
         )}
 
-        <button type="submit" className="btn btn-primary">
+        <button type="submit" className="btn btn-neutral">
           Sign In
         </button>
       </form>

@@ -9,17 +9,20 @@ import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../contexts/UserContext";
 import ButtonRotatingBackgroundGradient from "./ButtonRotatingBackgroundGradient";
 import ButtonAnimatedGradient from "./ButtonAnimatedGradient";
-
+import Toast from "./Toast";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBowlFood } from "@fortawesome/free-solid-svg-icons";
 
 const Post = ({ post, onDelete, restaurant, consumer }) => {
   console.log(post);
   const { userPhone } = useContext(UserContext);
-  const [successMessage, setSuccessMessage] = useState(null);
-  const [errorMessage, setErrorMessage] = useState(null);
+  // const [successMessage, setSuccessMessage] = useState(null);
+  // const [errorMessage, setErrorMessage] = useState(null);
   const [imagePath, setImagePath] = useState("");
   console.log(imagePath);
+
+  const [toast, setToast] = useState("");
+  const [toastType, setToastType] = useState(null);
 
   useEffect(() => {
     const getImage = async () => {
@@ -60,12 +63,25 @@ const Post = ({ post, onDelete, restaurant, consumer }) => {
           },
         }
       );
-      setSuccessMessage(response.data);
-      setErrorMessage(null);
-      setTimeout(() => onDelete(post.id), 2000); // 2000ms = 2 seconds
+      // setSuccessMessage(response.data);
+      // setErrorMessage(null);
+      // setTimeout(() => onDelete(post.id), 2000); // 2000ms = 2 seconds
+      setToastType("success");
+      setToast(response.data);
+      setTimeout(() => {
+        setToast("");
+        setToastType(null);
+        onDelete(post.id);
+      }, 3000);
     } catch (error) {
-      setErrorMessage("Failed to delete post: " + error);
-      setSuccessMessage(null);
+      // setErrorMessage("Failed to delete post: " + error);
+      // setSuccessMessage(null);
+      setToastType("error");
+      setToast("An error occurred while sending the request");
+      setTimeout(() => {
+        setToast("");
+        setToastType(null);
+      }, 3000);
     }
   };
 
@@ -79,53 +95,32 @@ const Post = ({ post, onDelete, restaurant, consumer }) => {
           },
         }
       );
-      setSuccessMessage(response.data);
-      setErrorMessage(null);
+      // use Toast
+      setToastType("success");
+      setToast(response.data);
+      setTimeout(() => {
+        setToast("");
+        setToastType(null);
+        onDelete(post.id);
+      }, 3000);
       setTimeout(() => onDelete(post.id), 2000); // 2000ms = 2 seconds
     } catch (error) {
-      setErrorMessage("Failed to delete post: " + error);
-      setSuccessMessage(null);
+      setToastType("error");
+      setToast("An error occurred while sending the request");
+      setTimeout(() => {
+        setToast("");
+        setToastType(null);
+      }, 3000);
     }
   };
 
   return (
     <div className="mb-6 border-4 border-silver shadow p-7 rounded-lg w-[60rem]">
-      {errorMessage && (
-        <div role="alert" className="alert alert-error">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="stroke-current shrink-0 h-6 w-6"
-            fill="none"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-            />
-          </svg>
-          <span>{errorMessage}</span>
-        </div>
-      )}
-      {successMessage && (
-        <div role="alert" className="alert alert-info">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            className="stroke-current shrink-0 w-6 h-6"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-            ></path>
-          </svg>
-          <span>{successMessage}</span>
-        </div>
-      )}
+      <Toast
+        success={toastType === "success"}
+        error={toastType === "error"}
+        content={toast}
+      />
       <div className="flex flex-col">
         <h2 className="text-4xl font-bold text-green-500 mb-10">
           <div className="flex justify-center items-center gap-3">
@@ -151,7 +146,6 @@ const Post = ({ post, onDelete, restaurant, consumer }) => {
           </p>
         </div>
       </div>
-
       {post.items.map((item, index) => (
         <section className="flex flex-col" key={item.id}>
           <div className="border border-gray-300 p-4 my-4 rounded-md bg-gray-50 bg-opacity-90">
@@ -192,13 +186,6 @@ const Post = ({ post, onDelete, restaurant, consumer }) => {
           >
             Modify
           </Button>
-          {/* <Button
-            neutral
-            type="submit"
-            className="bg-silver text-black font-bold"
-          >
-            Submit
-          </Button> */}
         </div>
       )}
       {consumer && (

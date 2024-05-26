@@ -11,6 +11,7 @@ import {
 import PostLoading from "../components/UI/PostLoading";
 
 import TextShine from "../components/UI/TextShine";
+import EmptyAnim from "../components/UI/EmptyAnim";
 
 const FeedbacksRestau = () => {
   const [posts, setPosts] = useState([]);
@@ -57,8 +58,16 @@ const FeedbacksRestau = () => {
           content="Feedbacks"
           className="text-5xl font-bold text-center"
         />
-        <p className="font-bold text-2xl">
+        {/* <p className="font-bold text-2xl">
           {posts.length === 0 && <p> No feedbacks yet :( </p>}
+        </p> */}
+        <p className="font-bold text-2xl">
+          {posts.length === 0 && (
+            <div>
+              <p>No feedbacks yet :(</p>
+              <EmptyAnim />
+            </div>
+          )}
         </p>
       </div>
       <div className="flex flex-col gap-3">

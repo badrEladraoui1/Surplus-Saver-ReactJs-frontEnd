@@ -15,7 +15,7 @@ const HeroSection = ({ onScrollToBenefitsSection }) => {
           <p>Join us in the fight against food waste and hunger.</p>
           <div className="flex gap-3">
             <NavLink to="/sign_up">
-              <Button className="font-bold" primary>
+              <Button className="font-bold" accent>
                 GET STARTED !!!
               </Button>
             </NavLink>
@@ -23,7 +23,7 @@ const HeroSection = ({ onScrollToBenefitsSection }) => {
             <Button
               onClick={onScrollToBenefitsSection}
               className="font-bold"
-              secondary
+              neutral
             >
               LEARN MORE
             </Button>

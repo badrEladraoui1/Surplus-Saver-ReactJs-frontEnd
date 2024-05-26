@@ -64,6 +64,7 @@ const InterestedPostModal = ({
       }
 
       setSuccess(true);
+      // onCloseModal(); // Close the modal after successful request
     } catch (err) {
       setError(err.message);
     } finally {

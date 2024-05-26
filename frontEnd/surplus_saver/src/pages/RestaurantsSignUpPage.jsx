@@ -185,7 +185,7 @@ const RestaurantsSignUpPage = () => {
           Please enter a 10-digit phone number
         </span>
       )}
-      <input type="submit" value="Sign Up" className="btn btn-primary" />
+      <input type="submit" value="Sign Up" className="btn btn-neutral" />
 
       {successMessage && (
         <div role="alert" className="alert">

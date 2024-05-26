@@ -6,6 +6,7 @@ import Loading from "../components/UI/Loading";
 
 import Post from "../components/UI/Post";
 import TextShine from "../components/UI/TextShine";
+import EmptyAnim from "../components/UI/EmptyAnim";
 
 const ConsumerSavedPosts = () => {
   const [savedPosts, setSavedPosts] = useState([]);
@@ -65,7 +66,11 @@ const ConsumerSavedPosts = () => {
             />
           ))
         ) : (
-          <p className="font-bold text-2xl">No Saved Posts yet ...</p>
+          // <p className="font-bold text-2xl">No Saved Posts yet ...</p>
+          <div>
+            <p className="font-bold text-2xl">No Saved Posts yet :(</p>
+            <EmptyAnim />
+          </div>
         )}
       </div>
     </div>

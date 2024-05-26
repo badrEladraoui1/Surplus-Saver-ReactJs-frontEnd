@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
-import { useEffect, useState } from "react";
+/* eslint-disable no-unused-vars */
+import { useEffect, useState, useRef } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { api } from "../Utils/backendApi";
@@ -25,6 +26,19 @@ const Profile = () => {
     formState: { errors },
     setValue,
   } = useForm();
+
+  const imageRef = useRef(); // reference to the image element
+
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImageURL(reader.result); // set the image URL to the read data
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   const [serverImagePath, setServerImagePath] = useState("");
   const [imageURL, setImageURL] = useState("");
@@ -101,7 +115,7 @@ const Profile = () => {
       setToastInfo({
         type: "success",
         message:
-          "Profile updated successfully! refresh the page to see changes.",
+          "Profile updated successfully!.",
       });
       setTimeout(() => setToastInfo(null), 3000);
     } catch (error) {
@@ -113,7 +127,23 @@ const Profile = () => {
 
   return (
     <div className="flex justify-center items-center h-screen gap-20">
-      {profilePic ? <div className="avatar">{profilePic}</div> : ""}
+      {/* {profilePic ? (
+        <div ref={imageRef} className="avatar">
+          {profilePic}
+        </div>
+      ) : (
+        ""
+      )} */}
+      {imageURL ? (
+        <img
+          className="size-[23rem] border-4 border-silver p-3 rounded-lg"
+          ref={imageRef}
+          src={imageURL}
+          alt="Profile"
+        />
+      ) : (
+        profilePic
+      )}
       <div className="w-full max-w-md">
         <form
           onSubmit={handleSubmit(onSubmit)}
@@ -196,6 +226,7 @@ const Profile = () => {
               type="file"
               placeholder="Image"
               {...register("imagePath")}
+              onChange={handleImageChange}
               className="shadow appearance-none border rounded w-full py-2 px-3  leading-tight focus:outline-none focus:shadow-outline"
             />
           </div>

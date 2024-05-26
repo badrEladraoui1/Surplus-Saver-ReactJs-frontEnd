@@ -5,6 +5,7 @@ import { UserContext } from "../../contexts/UserContext";
 import Button from "./Button";
 import axios from "axios";
 import { api } from "../../Utils/backendApi";
+import ThemeToggler from "./ThemeToggler";
 
 const NavForUser = ({ userUserName }) => {
   const { userProfilePic, userRole, logout, setSearchResults } =
@@ -88,9 +89,11 @@ const NavForUser = ({ userUserName }) => {
                 </h6>
               </Link>
             </li>
-            {/* <li>
-              <a>Settings</a>
-            </li> */}
+            <li className="text-center">
+              <h6 className="justify-start">
+                Theme : <ThemeToggler />
+              </h6>
+            </li>
             <li>
               <Link to="/" onClick={logout}>
                 Logout
