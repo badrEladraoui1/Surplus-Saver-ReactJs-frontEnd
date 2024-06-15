@@ -81,7 +81,7 @@ const FeedbacksRestau = () => {
                 <h2 className="text-2xl font-bold m-3">
                   The post described by :{" "}
                 </h2>
-                <span className="text-white font-mono text-2xl font-bold m-3">
+                <span className="text-black font-mono text-2xl font-bold m-3">
                   {post.postDescription}
                 </span>
               </div>
